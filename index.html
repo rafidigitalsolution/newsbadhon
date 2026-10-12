@@ -418,9 +418,9 @@
     <div class="ticker-wrapper">
         <div class="ticker-title"><i class="fa-solid fa-bullhorn" style="margin-right: 8px;"></i>ডেভলপার</div>
         <div class="marquee-content">
-                    
         নিউজ ম্যানেজমেন্ট সফটওয়্যার || এই সফটওয়্যারটি ডিজাইন ও ডেভেলপ করেছে "রাফি ডিজিটাল সলিউশন" || যেকোনো প্রয়োজনে কল করুন - ০১৭৬৩৭৫২৬৫৩</div>
     </div>
+
     <!-- Main Content Area -->
     <main>
         <!-- View 1: Home Screen -->
@@ -489,7 +489,7 @@
 
                 <div style="margin-top: 20px;">
                     <button class="btn-download" onclick="downloadPhotocard()">
-                        <i class="fa-solid fa-download"></i> বাধন ভাই ডাউনলোড করুন
+                        <i class="fa-solid fa-download"></i> ফটোকার্ড ডাউনলোড করুন
                     </button>
                 </div>
             </div>
@@ -501,7 +501,7 @@
         <p>© কপিরাইট বড়াইগ্রামের কন্ঠস্বর | সর্বস্বত্ব সংরক্ষিত</p>
         <p style="margin-top: 6px; font-size: 0.85rem;">
             DESIGN & DEVELOPED BY 
-            <a href="https://wa.me/8801763752653?text=%E0%A6%AB%E0%A6%9F%E0%A7%8B%E0%A6%95%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1%20%E0%A6%B8%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%AD%E0%A6%BE%E0%A6%B0%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A6%AF%E0%A6%BC%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%88" target="_blank">
+            <a href="https://wa.me/8801763752653?text=%E0%A6%AB%E0%A6%9F%E0%A7%8B%E0%A6%95%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1%20%E0%A6%BB%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%BA%E0%A6%BE%E0%A6%B0%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A6%AF%E0%A6%BC%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%88" target="_blank">
                 RAFI DIGITAL SOLUTION
             </a>
         </p>
@@ -514,7 +514,6 @@
             return num.toString().split('').map(d => bnDigits[d] !== undefined ? bnDigits[d] : d).join('');
         }
 
-        // Bengali Date Format Calculator
         function getBanglaDateString(date) {
             const gYear = date.getFullYear();
             const bMonths = ["বৈশাখ", "জ্যৈষ্ঠ", "আষাঢ়", "শ্রাবণ", "ভাদ্র", "আশ্বিন", "কার্তিক", "অগ্রহায়ণ", "পৌষ", "মাঘ", "ফাল্গুন", "চৈত্র"];
@@ -546,7 +545,6 @@
             return `${toBengaliNum(bDay)} ${bMonths[bMonthIdx]} ${toBengaliNum(bYear)}`;
         }
 
-        // English Date Format as requested: "১১ অক্টোবর, ২০২৬ইং"
         function getEnglishDateString(date) {
             const monthsEn = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
             return `${toBengaliNum(date.getDate())} ${monthsEn[date.getMonth()]}, ${toBengaliNum(date.getFullYear())}ইং`;
@@ -584,7 +582,7 @@
         let imgState = { x: 0, y: 0, scale: 1.0 };
 
         frameImage.crossOrigin = "anonymous";
-        frameImage.src = "https://i.ibb.co.com/kV7fv2YH/Pixellab-ST-20261012-011243.png";
+        frameImage.src = "https://i.ibb.co.com/tTdzDFLs/Pixellab-ST-20261012-083201.png";
         frameImage.onload = () => { frameLoaded = true; };
 
         const dropZone = document.getElementById('drop-zone');
@@ -656,12 +654,12 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            /* 1. Draw User Image with Increased Size covering the box completely */
+            /* 1. Draw User Image */
             if (imgLoaded && userImage.complete) {
                 const targetX = 22; 
-                const targetY = 105;
+                const targetY = 85; 
                 const targetW = canvas.width - 44;
-                const targetH = canvas.height * 0.51;
+                const targetH = canvas.height * 0.54;
                 
                 ctx.save();
                 ctx.beginPath();
@@ -690,10 +688,10 @@
             /* 2. Draw Frame Overlay */
             ctx.drawImage(frameImage, 0, 0, canvas.width, canvas.height);
 
-            /* 3. Render Date Format shifted slightly to the right */
+            /* 3. Render Calendar Date Properly Inside Bottom Left Box */
             renderCalendarDate(ctx, canvas.width, canvas.height);
 
-            /* 4. Render Headline */
+            /* 4. Render Headline Properly Inside White News Box */
             const text = document.getElementById('headline-input').value.trim();
             if (text.length > 0) {
                 renderAutoFittingHeadline(ctx, text, canvas.width, canvas.height);
@@ -702,26 +700,25 @@
 
         function renderCalendarDate(ctx, canvasWidth, canvasH) {
             const now = new Date();
-            const dateStr = getEnglishDateString(now); // ১১ অক্টোবর, ২০২৬ইং
+            const dateStr = getEnglishDateString(now);
             
             ctx.save();
-            ctx.font = `bold ${Math.floor(canvasWidth * 0.022)}px 'Tiro Bangla', sans-serif`;
-            ctx.fillStyle = '#333333'; 
+            ctx.font = `bold ${Math.floor(canvasWidth * 0.021)}px 'Tiro Bangla', sans-serif`;
+            ctx.fillStyle = '#111111'; 
             ctx.textAlign = 'left';
-            // Shifted slightly to the right as requested (0.095 instead of 0.085)
-            ctx.fillText(dateStr, canvasWidth * 0.098, canvasH * 0.875);
+            // এক্স-অক্ষ (X-coordinate) ডানদিকে সরিয়ে ক্যালেন্ডার আইকনের বাইরে ও সঠিক সাদা বক্সের ভেতরে সেট করা হয়েছে
+            ctx.fillText(dateStr, canvasWidth * 0.165, canvasH * 0.882);
             ctx.restore();
         }
 
-        // Headline Text with proper styling
         function renderAutoFittingHeadline(ctx, text, canvasWidth, canvasH) {
             const words = text.split(/\s+/);
             const startX = 85;
-            const startY = canvasH * 0.725;
+            const startY = canvasH * 0.745; 
             const maxLineWidth = canvasWidth - 170;
-            const maxBoxHeight = canvasH * 0.13;
+            const maxBoxHeight = canvasH * 0.11;
 
-            let fontSize = Math.floor(canvasWidth * 0.048);
+            let fontSize = Math.floor(canvasWidth * 0.045);
             let lines = [];
             let tokens = [];
 
@@ -731,7 +728,7 @@
 
             while (fontSize > 18) {
                 ctx.font = `bold ${fontSize}px 'Tiro Bangla', sans-serif`;
-                let lineHeight = fontSize * 1.35;
+                let lineHeight = fontSize * 1.3;
                 let currentLines = [];
                 let currentLine = [];
                 let currentLineWidth = 0;
@@ -762,7 +759,7 @@
                 lines = [tokens];
             }
 
-            let lineHeight = fontSize * 1.35;
+            let lineHeight = fontSize * 1.3;
             let currentY = startY;
 
             lines.forEach(line => {
