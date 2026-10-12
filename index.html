@@ -688,7 +688,7 @@
             /* 2. Draw Frame Overlay */
             ctx.drawImage(frameImage, 0, 0, canvas.width, canvas.height);
 
-            /* 3. Render Calendar Date Properly Inside Bottom Left Box */
+            /* 3. Render Calendar Date */
             renderCalendarDate(ctx, canvas.width, canvas.height);
 
             /* 4. Render Headline Properly Inside White News Box */
@@ -703,11 +703,11 @@
             const dateStr = getEnglishDateString(now);
             
             ctx.save();
-            ctx.font = `bold ${Math.floor(canvasWidth * 0.021)}px 'Tiro Bangla', sans-serif`;
+            ctx.font = `bold ${Math.floor(canvasWidth * 0.020)}px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#111111'; 
             ctx.textAlign = 'left';
-            // এক্স-অক্ষ (X-coordinate) ডানদিকে সরিয়ে ক্যালেন্ডার আইকনের বাইরে ও সঠিক সাদা বক্সের ভেতরে সেট করা হয়েছে
-            ctx.fillText(dateStr, canvasWidth * 0.165, canvasH * 0.882);
+            // মানটি 0.195 থেকে কমিয়ে 0.138 করা হয়েছে যাতে তারিখ বামে এসে বক্সের ভেতরে বসে যায়
+            ctx.fillText(dateStr, canvasWidth * 0.120, canvasH * 0.877);
             ctx.restore();
         }
 
