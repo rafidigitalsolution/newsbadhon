@@ -706,8 +706,8 @@
             ctx.font = `bold ${Math.floor(canvasWidth * 0.020)}px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#111111'; 
             ctx.textAlign = 'left';
-            // মানটি 0.195 থেকে কমিয়ে 0.138 করা হয়েছে যাতে তারিখ বামে এসে বক্সের ভেতরে বসে যায়
-            ctx.fillText(dateStr, canvasWidth * 0.120, canvasH * 0.877);
+            // তারিখটি ডানে চেপে থাকা রোধ করতে বামে (0.105) এবং উপর দিকে (0.870) নিখুঁতভাবে ফিট করা হয়েছে
+            ctx.fillText(dateStr, canvasWidth * 0.105, canvasH * 0.870);
             ctx.restore();
         }
 
