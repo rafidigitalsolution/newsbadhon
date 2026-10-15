@@ -36,7 +36,7 @@
             overflow-x: hidden;
         }
 
-        /* 1. Splash Screen Animation */
+        /* Splash Screen */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -64,7 +64,7 @@
             100% { transform: scale(0.8); opacity: 0.5; }
         }
 
-        /* 2. Red-Green Header UI */
+        /* Header UI */
         header {
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(12px);
@@ -95,12 +95,9 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 2px 8px rgba(22, 163, 74, 0.1);
-            color: var(--dark-black);
         }
 
-        .smart-badge i {
-            color: var(--primary-red);
-        }
+        .smart-badge i { color: var(--primary-red); }
 
         .clock-badge {
             background: var(--primary-green);
@@ -111,10 +108,9 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.2);
         }
 
-        /* 3. News Ticker / Marquee */
+        /* Ticker */
         .ticker-wrapper {
             background: var(--dark-black);
             color: var(--pure-white);
@@ -122,7 +118,6 @@
             align-items: center;
             overflow: hidden;
             height: 40px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .ticker-title {
@@ -134,7 +129,6 @@
             font-weight: bold;
             white-space: nowrap;
             z-index: 2;
-            font-size: 0.95rem;
         }
 
         .marquee-content {
@@ -154,11 +148,10 @@
             flex: 1;
             max-width: 900px;
             width: 90%;
-            margin: 40px auto;
+            margin: 30px auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
         }
 
         .page-view {
@@ -178,12 +171,11 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Red-Green Gradient CTA Button */
         .btn-animated {
             background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-green) 100%);
             color: white;
-            padding: 18px 45px;
-            font-size: 1.3rem;
+            padding: 16px 40px;
+            font-size: 1.2rem;
             font-weight: bold;
             border: none;
             border-radius: 50px;
@@ -192,150 +184,163 @@
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            animation: bounce 2s infinite;
+            gap: 10px;
         }
 
         .btn-animated:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 15px 30px rgba(220, 38, 38, 0.4);
+            transform: translateY(-3px) scale(1.02);
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-8px); }
-            60% { transform: translateY(-4px); }
-        }
-
-        /* Glassmorphism Card Container */
         .glass-card {
             background: var(--glass-bg);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow);
             border-radius: 24px;
-            padding: 40px;
+            padding: 30px;
             width: 100%;
         }
 
-        /* Clean Home Hero */
         .hero-card {
             text-align: center;
-            padding: 60px 30px;
+            padding: 50px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 25px;
+            gap: 20px;
         }
 
-        .hero-card h1 {
-            font-size: 2.3rem;
-            color: var(--dark-black);
-            font-weight: 700;
-        }
-
-        .hero-card h1 span {
-            color: var(--primary-red);
-        }
-
-        .hero-card h1 span.green {
-            color: var(--primary-green);
-        }
-
-        .hero-card p {
-            font-size: 1.15rem;
-            color: #444;
-            max-width: 600px;
-            line-height: 1.6;
-        }
-
-        .form-group {
-            margin-bottom: 22px;
-        }
+        .form-group { margin-bottom: 20px; }
 
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: var(--dark-black);
-            font-size: 1.05rem;
+            font-size: 1rem;
         }
 
-        /* Drop & Drag Zone */
         .drop-zone {
             border: 2px dashed var(--primary-green);
             border-radius: 14px;
-            padding: 35px;
+            padding: 30px;
             text-align: center;
             background: rgba(255, 255, 255, 0.7);
             cursor: pointer;
-            transition: border-color 0.3s, background 0.3s;
         }
 
-        .drop-zone:hover, .drop-zone.dragover {
-            border-color: var(--primary-red);
-            background: rgba(22, 163, 74, 0.05);
-        }
+        .drop-zone i { font-size: 40px; color: var(--primary-green); margin-bottom: 10px; }
 
-        .drop-zone i {
-            font-size: 45px;
-            color: var(--primary-green);
-            margin-bottom: 12px;
-        }
-
-        .input-text {
+        .input-text, .input-select {
             width: 100%;
-            padding: 14px 16px;
+            padding: 12px 15px;
             border-radius: 12px;
             border: 1px solid #ccc;
             outline: none;
-            font-size: 1.05rem;
+            font-size: 1rem;
             background: rgba(255, 255, 255, 0.9);
-            transition: border 0.3s;
         }
 
-        .input-text:focus {
-            border-color: var(--primary-green);
+        /* Control Panel */
+        .control-section {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 18px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            width: 100%;
+            border: 1px solid rgba(0,0,0,0.08);
         }
 
-        /* Control Panel on Preview Page */
+        .control-title {
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            color: var(--dark-black);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .control-panel {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 10px;
-            margin: 15px 0;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 15px;
-            border-radius: 14px;
-            width: 100%;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 8px;
         }
 
         .ctrl-btn {
             background: var(--dark-black);
             color: white;
             border: none;
-            padding: 10px 12px;
+            padding: 8px 10px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 5px;
             transition: 0.2s;
         }
 
-        .ctrl-btn:hover {
-            background: var(--primary-green);
+        .ctrl-btn:hover { background: var(--primary-green); }
+
+        /* Design Selector Tabs */
+        .template-selector {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 15px;
         }
 
-        .view-header {
+        .tpl-btn {
+            background: #e2e8f0;
+            border: 2px solid transparent;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .tpl-btn.active {
+            background: var(--primary-green);
+            color: white;
+            border-color: #15803d;
+        }
+
+        .slider-container {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            width: 100%;
+            gap: 15px;
+            margin-top: 8px;
+        }
+
+        .slider-container input[type="range"] {
+            flex: 1;
+            accent-color: var(--primary-green);
+        }
+
+        .caption-box {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            text-align: left;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .btn-copy {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
         }
 
         canvas {
@@ -343,31 +348,45 @@
             height: auto;
             border-radius: 14px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin: 15px 0;
+            margin: 10px 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
         }
 
         .btn-download {
             background: var(--primary-green);
             color: white;
-            padding: 14px 35px;
-            font-size: 1.15rem;
+            padding: 12px 25px;
+            font-size: 1.05rem;
             font-weight: bold;
             border: none;
             border-radius: 35px;
             cursor: pointer;
-            box-shadow: 0 5px 20px rgba(22, 163, 74, 0.4);
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            transition: 0.3s;
+            gap: 8px;
         }
 
-        .btn-download:hover {
-            background: #15803d;
-            transform: translateY(-2px);
+        .btn-facebook {
+            background: #1877f2;
+            color: white;
+            padding: 12px 25px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 35px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* Footer Section */
         footer {
             background: var(--dark-black);
             color: var(--pure-white);
@@ -375,37 +394,20 @@
             padding: 20px;
             margin-top: auto;
             border-top: 3px solid var(--primary-green);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
-        footer a {
-            color: #4ade80;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        footer a:hover {
-            color: #fff;
-            text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
-            .clock-container { font-size: 0.85rem; }
-            .btn-animated { width: 100%; justify-content: center; padding: 16px 20px; font-size: 1.15rem; }
-            .glass-card { padding: 25px; }
-            .hero-card h1 { font-size: 1.7rem; }
-        }
+        footer a { color: #4ade80; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <!-- 1. Splash Screen with New Logo -->
+    <!-- Splash Screen -->
     <div id="splash-screen">
         <img src="https://i.ibb.co.com/tp271RPg/IMG-20261008-WA0019.jpg" alt="Logo" class="splash-logo">
     </div>
 
-    <!-- 2. Header with Smart & Premium Dates -->
+    <!-- Header -->
     <header>
         <div class="clock-container">
             <div class="smart-badge"><i class="fa-solid fa-calendar-day"></i> <span id="date-bn"></span></div>
@@ -414,140 +416,153 @@
         </div>
     </header>
 
-    <!-- 3. News Ticker / Marquee -->
+    <!-- News Ticker -->
     <div class="ticker-wrapper">
         <div class="ticker-title"><i class="fa-solid fa-bullhorn" style="margin-right: 8px;"></i>ডেভলপার</div>
         <div class="marquee-content">
-        নিউজ ম্যানেজমেন্ট সফটওয়্যার || এই সফটওয়্যারটি ডিজাইন ও ডেভেলপ করেছে "রাফি ডিজিটাল সলিউশন" || যেকোনো প্রয়োজনে কল করুন - ০১৭৬৩৭৫২৬৫৩</div>
+        নিউজ ম্যানেজমেন্ট সফটওয়্যার || ডিজাইন ও ডেভেলপমেন্ট: "রাফি ডিজিটাল সলিউশন" || যোগাযোগ: ০১৭৬৩৭৫২৬৫৩</div>
     </div>
 
-    <!-- Main Content Area -->
     <main>
-        <!-- View 1: Home Screen -->
+        <!-- View 1: Home -->
         <div id="view-home" class="page-view active">
             <div class="glass-card hero-card">
-                <h1><span>বড়াইগ্রামের</span> <span class="green">কন্ঠস্বর</span></h1>
-                <p>প্রফেশনাল ও প্রিমিয়াম ডিজাইনে সহজে নিউজ ফটোকার্ড তৈরি করুন।</p>
+                <h1><span>বড়াইগ্রামের</span> <span style="color:var(--primary-green)">কন্ঠস্বর</span></h1>
+                <p>প্রফেশনাল সফটওয়্যার দিয়ে সহজেই প্রিমিয়াম ফটোকার্ড তৈরি করুন।</p>
                 <button class="btn-animated" onclick="switchView('view-form')">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> ফটোকার্ড ডিজাইন করুন
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> ফটোকার্ড তৈরি করুন
                 </button>
             </div>
         </div>
 
-        <!-- View 2: Form Page -->
+        <!-- View 2: Form -->
         <div id="view-form" class="page-view">
             <div class="glass-card">
-                <div class="view-header">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
                     <button class="ctrl-btn" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> হোম</button>
-                    <h2 style="color: var(--dark-black);">ফটোকার্ড ফরম</h2>
+                    <h2>ফটোকার্ড ফরম</h2>
                     <div></div>
                 </div>
                 
-                <!-- Drag & Drop Area -->
                 <div class="form-group">
-                    <label>ছবি নির্বাচন করুন (ড্রপ অ্যান্ড ড্রাগ)</label>
+                    <label>ছবি নির্বাচন করুন</label>
                     <div class="drop-zone" id="drop-zone" onclick="document.getElementById('img-input').click()">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <p id="drop-text">এখানে ছবি আপলোড করুন</p>
+                        <p id="drop-text">ছবি ড্রপ করুন বা আপলোড করতে ক্লিক করুন</p>
                         <input type="file" id="img-input" accept="image/*" style="display: none;">
                     </div>
                 </div>
 
-                <!-- Title Input -->
                 <div class="form-group">
-                    <label for="headline-input">সংবাদের শিরোনাম লিখুন</label>
-                    <textarea id="headline-input" class="input-text" rows="3" placeholder="এখানে শিরোনাম লিখুন (প্রথম ৩টি শব্দ লাল রঙে এবং বাকি সব কালো হবে)..."></textarea>
+                    <label for="headline-input">সংবাদের শিরোনাম</label>
+                    <textarea id="headline-input" class="input-text" rows="3" placeholder="সংবাদের শিরোনাম লিখুন..."></textarea>
                 </div>
 
-                <!-- Generate Button -->
-                <button class="btn-animated" style="width: 100%; justify-content: center; animation: none;" onclick="goToPreview()">
-                    <i class="fa-solid fa-gears"></i> ফটোকার্ড জেনারেট করুন
+                <div class="form-group">
+                    <label for="red-word-count">প্রথম কয়টি শব্দ লাল রঙে হবে?</label>
+                    <select id="red-word-count" class="input-select">
+                        <option value="0">০টি (সব কালো)</option>
+                        <option value="1">১টি শব্দ</option>
+                        <option value="2">২টি শব্দ</option>
+                        <option value="3" selected>৩টি শব্দ</option>
+                        <option value="4">৪টি শব্দ</option>
+                        <option value="5">৫টি শব্দ</option>
+                    </select>
+                </div>
+
+                <button class="btn-animated" style="width: 100%; justify-content: center;" onclick="goToPreview()">
+                    <i class="fa-solid fa-gears"></i> ফটোকার্ড তৈরি করুন
                 </button>
             </div>
         </div>
 
-        <!-- View 3: Preview & Download Page -->
+        <!-- View 3: Preview -->
         <div id="view-preview" class="page-view">
             <div class="glass-card" style="text-align: center;">
-                <div class="view-header">
-                    <button class="ctrl-btn" onclick="switchView('view-form')"><i class="fa-solid fa-arrow-left"></i> এডিট করুন</button>
-                    <h2 style="color: var(--dark-black);">ফটোকার্ড প্রিভিউ ও এডজাস্টমেন্ট</h2>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                    <button class="ctrl-btn" onclick="switchView('view-form')"><i class="fa-solid fa-arrow-left"></i> এডিট</button>
+                    <h2>ফটোকার্ড এডজাস্টমেন্ট</h2>
                     <div></div>
                 </div>
 
-                <!-- Image Position & Scale Controls on Preview Page -->
-                <div class="control-panel">
-                    <button class="ctrl-btn" onclick="adjustImage('zoomIn')"><i class="fa-solid fa-magnifying-glass-plus"></i> জুম ইন</button>
-                    <button class="ctrl-btn" onclick="adjustImage('zoomOut')"><i class="fa-solid fa-magnifying-glass-minus"></i> জুম আউট</button>
-                    <button class="ctrl-btn" onclick="adjustImage('left')"><i class="fa-solid fa-arrow-left"></i> বামে</button>
-                    <button class="ctrl-btn" onclick="adjustImage('right')"><i class="fa-solid fa-arrow-right"></i> ডানে</button>
-                    <button class="ctrl-btn" onclick="adjustImage('up')"><i class="fa-solid fa-arrow-up"></i> উপরে</button>
-                    <button class="ctrl-btn" onclick="adjustImage('down')"><i class="fa-solid fa-arrow-down"></i> নিচে</button>
+                <!-- Template Selector -->
+                <div class="template-selector">
+                    <button class="tpl-btn active" id="btn-tpl-1" onclick="changeTemplate(1)">ডিজাইন ১ (ফ্রেম)</button>
+                    <button class="tpl-btn" id="btn-tpl-2" onclick="changeTemplate(2)">ডিজাইন ২ (পোস্টার)</button>
                 </div>
 
+                <!-- Headline Font Size Slider -->
+                <div class="control-section">
+                    <div class="control-title"><i class="fa-solid fa-text-height"></i> শিরোনামের সাইজ কন্ট্রোল</div>
+                    <div class="slider-container">
+                        <i class="fa-solid fa-font" style="font-size: 0.8rem;"></i>
+                        <input type="range" id="font-size-slider" min="30" max="70" value="48" oninput="generatePhotocard()">
+                        <i class="fa-solid fa-font" style="font-size: 1.3rem;"></i>
+                    </div>
+                </div>
+
+                <!-- Image Controls -->
+                <div class="control-section">
+                    <div class="control-title"><i class="fa-solid fa-image"></i> ছবির পজিশন ও জুম কন্ট্রোল</div>
+                    <div class="control-panel">
+                        <button class="ctrl-btn" onclick="adjustImage('zoomIn')"><i class="fa-solid fa-magnifying-glass-plus"></i> জুম ইন</button>
+                        <button class="ctrl-btn" onclick="adjustImage('zoomOut')"><i class="fa-solid fa-magnifying-glass-minus"></i> জুম আউট</button>
+                        <button class="ctrl-btn" onclick="adjustImage('left')"><i class="fa-solid fa-arrow-left"></i> বামে</button>
+                        <button class="ctrl-btn" onclick="adjustImage('right')"><i class="fa-solid fa-arrow-right"></i> ডানে</button>
+                        <button class="ctrl-btn" onclick="adjustImage('up')"><i class="fa-solid fa-arrow-up"></i> উপরে</button>
+                        <button class="ctrl-btn" onclick="adjustImage('down')"><i class="fa-solid fa-arrow-down"></i> নিচে</button>
+                    </div>
+                </div>
+
+                <!-- Canvas Preview -->
                 <canvas id="photocard-canvas"></canvas>
 
-                <div style="margin-top: 20px;">
+                <!-- Auto Caption Generator Box -->
+                <div class="control-section" style="margin-top: 15px;">
+                    <div class="control-title"><i class="fa-solid fa-robot"></i> অটো ক্যাপশন জেনারেটর (Auto Caption Helper)</div>
+                    <div class="caption-box">
+                        <button class="btn-copy" onclick="copyCaption()"><i class="fa-solid fa-copy"></i> কপি</button>
+                        <p id="generated-caption-text"></p>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
                     <button class="btn-download" onclick="downloadPhotocard()">
-                        <i class="fa-solid fa-download"></i> ফটোকার্ড ডাউনলোড করুন
+                        <i class="fa-solid fa-download"></i> ডাউনলোড করুন
+                    </button>
+                    <button class="btn-facebook" onclick="shareToFacebook()">
+                        <i class="fa-brands fa-facebook"></i> ফেসবুকে শেয়ার
                     </button>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Footer Section -->
     <footer>
         <p>© কপিরাইট বড়াইগ্রামের কন্ঠস্বর | সর্বস্বত্ব সংরক্ষিত</p>
-        <p style="margin-top: 6px; font-size: 0.85rem;">
+        <p style="margin-top: 5px; font-size: 0.85rem;">
             DESIGN & DEVELOPED BY 
-            <a href="https://wa.me/8801763752653?text=%E0%A6%AB%E0%A6%9F%E0%A7%8B%E0%A6%95%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1%20%E0%A6%BB%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%BA%E0%A6%BE%E0%A6%B0%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A6%AF%E0%A6%BC%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%88" target="_blank">
-                RAFI DIGITAL SOLUTION
-            </a>
+            <a href="https://wa.me/8801763752653" target="_blank">RAFI DIGITAL SOLUTION</a>
         </p>
     </footer>
 
-    <!-- JavaScript Logic -->
     <script>
         function toBengaliNum(num) {
             const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
             return num.toString().split('').map(d => bnDigits[d] !== undefined ? bnDigits[d] : d).join('');
         }
 
-        function getBanglaDateString(date) {
-            const gYear = date.getFullYear();
-            const bMonths = ["বৈশাখ", "জ্যৈষ্ঠ", "আষাঢ়", "শ্রাবণ", "ভাদ্র", "আশ্বিন", "কার্তিক", "অগ্রহায়ণ", "পৌষ", "মাঘ", "ফাল্গুন", "চৈত্র"];
+        // নিখুঁত বাংলা তারিখ ও বার জেনারেটর
+        function getFullBanglaDateString(date) {
+            const days = ["রবিবার", "সোমবার", "মঙ্গলবার", "বুধবার", "বৃহস্পতিবার", "শুক্রবার", "শনিবার"];
+            const months = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
             
-            let bYear = gYear - 593;
-            let bishakhStart = new Date(gYear, 3, 14);
-            
-            if (date < bishakhStart) {
-                bYear = gYear - 594;
-                bishakhStart = new Date(gYear - 1, 3, 14);
-            }
+            const dayName = days[date.getDay()];
+            const dayNum = toBengaliNum(date.getDate());
+            const monthName = months[date.getMonth()];
+            const yearNum = toBengaliNum(date.getFullYear());
 
-            const diffDays = Math.floor((date - bishakhStart) / (1000 * 60 * 60 * 24));
-            let isLeap = (gYear % 4 === 0 && gYear % 100 !== 0) || (gYear % 400 === 0);
-            let bMonthDays = [31, 31, 31, 31, 31, 30, 30, 30, 30, 30, isLeap ? 30 : 29, 30];
-
-            let currentDaySum = 0;
-            let bMonthIdx = 0;
-            let bDay = 1;
-
-            for (let i = 0; i < bMonthDays.length; i++) {
-                if (diffDays < currentDaySum + bMonthDays[i]) {
-                    bMonthIdx = i;
-                    bDay = diffDays - currentDaySum + 1;
-                    break;
-                }
-                currentDaySum += bMonthDays[i];
-            }
-            return `${toBengaliNum(bDay)} ${bMonths[bMonthIdx]} ${toBengaliNum(bYear)}`;
-        }
-
-        function getEnglishDateString(date) {
-            const monthsEn = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
-            return `${toBengaliNum(date.getDate())} ${monthsEn[date.getMonth()]}, ${toBengaliNum(date.getFullYear())}ইং`;
+            return `${dayName}, ${dayNum} ${monthName} ${yearNum}`;
         }
 
         window.addEventListener('load', () => {
@@ -555,22 +570,19 @@
                 const splash = document.getElementById('splash-screen');
                 splash.style.opacity = '0';
                 setTimeout(() => splash.style.display = 'none', 800);
-            }, 2000);
+            }, 1800);
 
             const now = new Date();
-            document.getElementById('date-bn').innerText = getBanglaDateString(now);
-            document.getElementById('date-en').innerText = getEnglishDateString(now);
+            document.getElementById('date-bn').innerText = getFullBanglaDateString(now);
+            document.getElementById('date-en').innerText = `${toBengaliNum(now.getDate())}/${toBengaliNum(now.getMonth()+1)}/${toBengaliNum(now.getFullYear())}`;
         });
 
         setInterval(() => {
-            const now = new Date();
-            document.getElementById('time-clock').innerText = now.toLocaleTimeString('bn-BD');
+            document.getElementById('time-clock').innerText = new Date().toLocaleTimeString('bn-BD');
         }, 1000);
 
         function switchView(viewId) {
-            document.querySelectorAll('.page-view').forEach(view => {
-                view.classList.remove('active');
-            });
+            document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -580,9 +592,10 @@
         let imgLoaded = false;
         let frameLoaded = false;
         let imgState = { x: 0, y: 0, scale: 1.0 };
+        let activeTemplate = 1;
 
         frameImage.crossOrigin = "anonymous";
-        frameImage.src = "https://i.ibb.co.com/tTdzDFLs/Pixellab-ST-20261012-083201.png";
+        frameImage.src = "https://i.ibb.co.com/gNhrvdh/Pixellab-ST-20261015-041102.png";
         frameImage.onload = () => { frameLoaded = true; };
 
         const dropZone = document.getElementById('drop-zone');
@@ -591,8 +604,6 @@
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, e => e.preventDefault(), false);
         });
-        ['dragenter', 'dragover'].forEach(eventName => dropZone.classList.add('dragover'));
-        ['dragleave', 'drop'].forEach(eventName => dropZone.classList.remove('dragover'));
 
         dropZone.addEventListener('drop', (e) => {
             if(e.dataTransfer.files.length > 0) handleFiles(e.dataTransfer.files[0]);
@@ -602,33 +613,31 @@
         });
 
         function handleFiles(file) {
-            if(!file.type.startsWith('image/')) {
-                alert('অনুগ্রহ করে সঠিক ইমেজ ফাইল নির্বাচন করুন।');
-                return;
-            }
+            if(!file.type.startsWith('image/')) return;
             const reader = new FileReader();
             reader.onload = (e) => {
                 userImage = new Image();
                 userImage.onload = () => {
                     imgLoaded = true;
                     imgState = { x: 0, y: 0, scale: 1.0 };
-                    document.getElementById('drop-text').innerText = `ছবি সংযুক্ত হয়েছে: ${file.name}`;
+                    document.getElementById('drop-text').innerText = `সংযুক্ত ছবি: ${file.name}`;
                 };
                 userImage.src = e.target.result;
             };
             reader.readAsDataURL(file);
         }
 
+        function changeTemplate(tplNum) {
+            activeTemplate = tplNum;
+            document.querySelectorAll('.tpl-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-tpl-${tplNum}`).classList.add('active');
+            generatePhotocard();
+        }
+
         function goToPreview() {
-            if (!imgLoaded) {
-                alert('অনুগ্রহ করে প্রথমে একটি ছবি আপলোড করুন!');
-                return;
-            }
-            if (!frameLoaded) {
-                alert('ফ্রেম ইমেজ লোড হচ্ছে, অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।');
-                return;
-            }
+            if (!imgLoaded) { alert('অনুগ্রহ করে ছবি আপলোড করুন!'); return; }
             switchView('view-preview');
+            updateCaptionHelper();
             generatePhotocard();
         }
 
@@ -641,7 +650,6 @@
             if (action === 'right') imgState.x += step;
             if (action === 'up') imgState.y -= step;
             if (action === 'down') imgState.y += step;
-
             generatePhotocard();
         }
 
@@ -649,121 +657,152 @@
             const canvas = document.getElementById('photocard-canvas');
             const ctx = canvas.getContext('2d');
 
-            canvas.width = frameImage.naturalWidth || 1080;
-            canvas.height = frameImage.naturalHeight || 1350;
+            canvas.width = 1080;
+            canvas.height = 1350;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            /* 1. Draw User Image */
-            if (imgLoaded && userImage.complete) {
-                const targetX = 22; 
-                const targetY = 85; 
-                const targetW = canvas.width - 44;
-                const targetH = canvas.height * 0.54;
-                
-                ctx.save();
-                ctx.beginPath();
-                ctx.rect(targetX, targetY, targetW, targetH);
-                ctx.clip();
+            if (activeTemplate === 1) {
+                /* টেমপ্লেট ১ - ড্রাগ ও ফ্রেম ওভারলে */
+                if (imgLoaded && userImage.complete) {
+                    const targetX = 0, targetY = 0, targetW = canvas.width, targetH = canvas.height * 0.70;
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.rect(targetX, targetY, targetW, targetH);
+                    ctx.clip();
 
-                const imgRatio = userImage.width / userImage.height;
-                const targetRatio = targetW / targetH;
-                let drawW, drawH;
+                    const imgRatio = userImage.width / userImage.height;
+                    const targetRatio = targetW / targetH;
+                    let drawW, drawH;
 
-                if (imgRatio > targetRatio) {
-                    drawH = targetH * imgState.scale;
-                    drawW = drawH * imgRatio;
-                } else {
-                    drawW = targetW * imgState.scale;
-                    drawH = drawW / imgRatio;
+                    if (imgRatio > targetRatio) {
+                        drawH = targetH * imgState.scale;
+                        drawW = drawH * imgRatio;
+                    } else {
+                        drawW = targetW * imgState.scale;
+                        drawH = drawW / imgRatio;
+                    }
+
+                    const drawX = targetX + (targetW - drawW) / 2 + imgState.x;
+                    const drawY = targetY + (targetH - drawH) / 2 + imgState.y;
+
+                    ctx.drawImage(userImage, drawX, drawY, drawW, drawH);
+                    ctx.restore();
                 }
 
-                const drawX = targetX + (targetW - drawW) / 2 + imgState.x;
-                const drawY = targetY + (targetH - drawH) / 2 + imgState.y;
+                if(frameLoaded) {
+                    ctx.drawImage(frameImage, 0, 0, canvas.width, canvas.height);
+                }
 
-                ctx.drawImage(userImage, drawX, drawY, drawW, drawH);
-                ctx.restore();
-            }
+                // তারিখ (কালো রঙে)
+                renderCalendarDate(ctx, canvas.width, canvas.height);
+                
+                // শিরোনাম
+                const text = document.getElementById('headline-input').value.trim();
+                if (text.length > 0) renderAutoFittingHeadline(ctx, text, canvas.width, canvas.height, 0.805);
 
-            /* 2. Draw Frame Overlay */
-            ctx.drawImage(frameImage, 0, 0, canvas.width, canvas.height);
+            } else {
+                /* টেমপ্লেট ২ - সোশ্যাল মিডিয়া গ্র্যাডিয়েন্ট শেড পোস্টার */
+                if (imgLoaded && userImage.complete) {
+                    const drawW = canvas.width * imgState.scale;
+                    const drawH = (canvas.width / (userImage.width / userImage.height)) * imgState.scale;
+                    const drawX = (canvas.width - drawW) / 2 + imgState.x;
+                    const drawY = (canvas.height - drawH) / 2 + imgState.y;
 
-            /* 3. Render Calendar Date */
-            renderCalendarDate(ctx, canvas.width, canvas.height);
+                    ctx.drawImage(userImage, drawX, drawY, drawW, drawH);
+                }
 
-            /* 4. Render Headline Properly Inside White News Box */
-            const text = document.getElementById('headline-input').value.trim();
-            if (text.length > 0) {
-                renderAutoFittingHeadline(ctx, text, canvas.width, canvas.height);
+                // ডার্ক গ্র্যাডিয়েন্ট ওভারলে
+                let gradient = ctx.createLinearGradient(0, canvas.height * 0.4, 0, canvas.height);
+                gradient.addColorStop(0, "rgba(0,0,0,0)");
+                gradient.addColorStop(0.5, "rgba(0,0,0,0.7)");
+                gradient.addColorStop(1, "rgba(0,0,0,0.95)");
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // হেডার লোগো / টেক্সট
+                ctx.fillStyle = "#dc2626";
+                ctx.fillRect(50, 50, 220, 50);
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 24px 'Tiro Bangla', sans-serif";
+                ctx.fillText("বড়াইগ্রামের কন্ঠস্বর", 65, 83);
+
+                // তারিখ (কালো/সাদা ব্যাকগ্রাউন্ড ফিল সম্বলিত)
+                renderCalendarDateTemplate2(ctx, canvas.width, canvas.height);
+
+                // শিরোনাম (সাদা ও লাল কম্বিনেশন)
+                const text = document.getElementById('headline-input').value.trim();
+                if (text.length > 0) renderAutoFittingHeadlineTpl2(ctx, text, canvas.width, canvas.height);
             }
         }
 
+        // টেমপ্লেট ১ তারিখ - একদম সুন্দর কালো রঙে
         function renderCalendarDate(ctx, canvasWidth, canvasH) {
             const now = new Date();
-            const dateStr = getEnglishDateString(now);
+            const dateStr = getFullBanglaDateString(now);
             
             ctx.save();
-            ctx.font = `bold ${Math.floor(canvasWidth * 0.020)}px 'Tiro Bangla', sans-serif`;
-            ctx.fillStyle = '#111111'; 
+            ctx.font = `bold ${Math.floor(canvasWidth * 0.026)}px 'Tiro Bangla', sans-serif`;
+            ctx.fillStyle = '#111111'; // কালো রঙে ফুটিয়ে তোলা
             ctx.textAlign = 'left';
-            // তারিখটি ডানে চেপে থাকা রোধ করতে বামে (0.105) এবং উপর দিকে (0.870) নিখুঁতভাবে ফিট করা হয়েছে
-            ctx.fillText(dateStr, canvasWidth * 0.105, canvasH * 0.870);
+            ctx.fillText(dateStr, canvasWidth * 0.075, canvasH * 0.738);
             ctx.restore();
         }
 
-        function renderAutoFittingHeadline(ctx, text, canvasWidth, canvasH) {
-            const words = text.split(/\s+/);
-            const startX = 85;
-            const startY = canvasH * 0.745; 
-            const maxLineWidth = canvasWidth - 170;
-            const maxBoxHeight = canvasH * 0.11;
+        // টেমপ্লেট ২ তারিখ
+        function renderCalendarDateTemplate2(ctx, canvasWidth, canvasH) {
+            const now = new Date();
+            const dateStr = getFullBanglaDateString(now);
+            
+            ctx.save();
+            ctx.font = `bold ${Math.floor(canvasWidth * 0.025)}px 'Tiro Bangla', sans-serif`;
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.fillText(dateStr, canvasWidth / 2, canvasH * 0.730);
+            ctx.restore();
+        }
 
-            let fontSize = Math.floor(canvasWidth * 0.045);
+        function renderAutoFittingHeadline(ctx, text, canvasWidth, canvasH, startYRatio) {
+            const redCount = parseInt(document.getElementById('red-word-count').value);
+            const userFontSize = parseInt(document.getElementById('font-size-slider').value);
+            const words = text.split(/\s+/);
+            const startY = canvasH * startYRatio;
+            const maxLineWidth = canvasWidth - 140;
+
+            let fontSize = userFontSize;
+            ctx.font = `bold ${fontSize}px 'Tiro Bangla', sans-serif`;
+            
             let lines = [];
             let tokens = [];
 
             words.forEach((w, idx) => {
-                tokens.push({ text: w + " ", color: (idx < 3) ? '#dc2626' : '#111111' });
+                tokens.push({ text: w + " ", color: (idx < redCount) ? '#dc2626' : '#111111' });
             });
 
-            while (fontSize > 18) {
-                ctx.font = `bold ${fontSize}px 'Tiro Bangla', sans-serif`;
-                let lineHeight = fontSize * 1.3;
-                let currentLines = [];
-                let currentLine = [];
-                let currentLineWidth = 0;
+            let lineHeight = fontSize * 1.35;
+            let currentLine = [];
+            let currentLineWidth = 0;
 
-                tokens.forEach(token => {
-                    let tokenWidth = ctx.measureText(token.text).width;
-                    if (currentLineWidth + tokenWidth > maxLineWidth) {
-                        currentLines.push(currentLine);
-                        currentLine = [token];
-                        currentLineWidth = tokenWidth;
-                    } else {
-                        currentLine.push(token);
-                        currentLineWidth += tokenWidth;
-                    }
-                });
-                if (currentLine.length > 0) currentLines.push(currentLine);
-
-                let totalHeight = currentLines.length * lineHeight;
-                if (totalHeight <= maxBoxHeight) {
-                    lines = currentLines;
-                    break;
+            tokens.forEach(token => {
+                let tokenWidth = ctx.measureText(token.text).width;
+                if (currentLineWidth + tokenWidth > maxLineWidth) {
+                    lines.push(currentLine);
+                    currentLine = [token];
+                    currentLineWidth = tokenWidth;
+                } else {
+                    currentLine.push(token);
+                    currentLineWidth += tokenWidth;
                 }
-                fontSize -= 2;
-            }
+            });
+            if (currentLine.length > 0) lines.push(currentLine);
 
-            if (lines.length === 0) {
-                ctx.font = `bold ${fontSize}px 'Tiro Bangla', sans-serif`;
-                lines = [tokens];
-            }
-
-            let lineHeight = fontSize * 1.3;
             let currentY = startY;
 
             lines.forEach(line => {
-                let drawX = startX;
+                let lineWidth = 0;
+                line.forEach(t => { lineWidth += ctx.measureText(t.text).width; });
+                let drawX = (canvasWidth - lineWidth) / 2;
+
                 line.forEach(t => {
                     ctx.fillStyle = t.color;
                     ctx.fillText(t.text, drawX, currentY);
@@ -773,12 +812,93 @@
             });
         }
 
+        function renderAutoFittingHeadlineTpl2(ctx, text, canvasWidth, canvasH) {
+            const redCount = parseInt(document.getElementById('red-word-count').value);
+            const userFontSize = parseInt(document.getElementById('font-size-slider').value);
+            const words = text.split(/\s+/);
+            const startY = canvasH * 0.790;
+            const maxLineWidth = canvasWidth - 140;
+
+            let fontSize = userFontSize;
+            ctx.font = `bold ${fontSize}px 'Tiro Bangla', sans-serif`;
+            
+            let lines = [];
+            let tokens = [];
+
+            words.forEach((w, idx) => {
+                tokens.push({ text: w + " ", color: (idx < redCount) ? '#f87171' : '#ffffff' });
+            });
+
+            let lineHeight = fontSize * 1.35;
+            let currentLine = [];
+            let currentLineWidth = 0;
+
+            tokens.forEach(token => {
+                let tokenWidth = ctx.measureText(token.text).width;
+                if (currentLineWidth + tokenWidth > maxLineWidth) {
+                    lines.push(currentLine);
+                    currentLine = [token];
+                    currentLineWidth = tokenWidth;
+                } else {
+                    currentLine.push(token);
+                    currentLineWidth += tokenWidth;
+                }
+            });
+            if (currentLine.length > 0) lines.push(currentLine);
+
+            let currentY = startY;
+
+            lines.forEach(line => {
+                let lineWidth = 0;
+                line.forEach(t => { lineWidth += ctx.measureText(t.text).width; });
+                let drawX = (canvasWidth - lineWidth) / 2;
+
+                line.forEach(t => {
+                    ctx.fillStyle = t.color;
+                    ctx.fillText(t.text, drawX, currentY);
+                    drawX += ctx.measureText(t.text).width;
+                });
+                currentY += lineHeight;
+            });
+        }
+
+        function updateCaptionHelper() {
+            const text = document.getElementById('headline-input').value.trim();
+            const dateStr = getFullBanglaDateString(new Date());
+            const caption = `${text}\n\nতারিখ: ${dateStr}\nবিস্তারিত পড়তে চোখ রাখুন বড়াইগ্রামের কন্ঠস্বর-এ।\n\n#BaraigramNews #Baraigram #NewsUpdate`;
+            document.getElementById('generated-caption-text').innerText = caption;
+        }
+
+        function copyCaption() {
+            const captionText = document.getElementById('generated-caption-text').innerText;
+            navigator.clipboard.writeText(captionText);
+            alert('ক্যাপশন কপি করা হয়েছে!');
+        }
+
         function downloadPhotocard() {
             const canvas = document.getElementById('photocard-canvas');
             const link = document.createElement('a');
             link.download = 'baraigramerkonthaswar-photocard.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
+        }
+
+        function shareToFacebook() {
+            const canvas = document.getElementById('photocard-canvas');
+            canvas.toBlob(blob => {
+                const file = new File([blob], "photocard.png", { type: "image/png" });
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    navigator.share({
+                        title: 'বড়াইগ্রামের কন্ঠস্বর',
+                        text: document.getElementById('headline-input').value,
+                        files: [file]
+                    });
+                } else {
+                    downloadPhotocard();
+                    alert('ছবি ডাউনলোড হয়েছে। ফেসবুকে পেস্ট করার জন্য ক্যাপশনও তৈরি আছে!');
+                    window.open('https://www.facebook.com/', '_blank');
+                }
+            }, 'image/png');
         }
     </script>
 </body>
