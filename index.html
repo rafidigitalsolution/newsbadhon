@@ -663,7 +663,7 @@
 
                 <div class="action-buttons">
                     <button class="btn-download" onclick="downloadPhotocard()">
-                        <i class="fa-solid fa-download"></i> আল্ট্রা এইচডি ডাউনলোড (4K)
+                        <i class="fa-solid fa-download"></i> এইচডি ডাউনলোড
                     </button>
                     <button class="btn-facebook" onclick="shareToFacebook()">
                         <i class="fa-brands fa-facebook"></i> ফেসবুকে শেয়ার
@@ -1159,22 +1159,26 @@
             ctx.font = `bold ${Math.floor(canvasWidth * 0.030)}px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'left';
-            ctx.fillText(dateStr, canvasWidth * 0.035, canvasH * 0.082);
+            ctx.fillText(dateStr, canvasWidth * 0.065, canvasH * 0.725);
             ctx.restore();
         }
 
         function renderCalendarDate(ctx, canvasWidth, canvasH) {
-            const now = new Date();
-            const dateStr = getFullBanglaDateString(now);
-            
-            ctx.save();
-            ctx.font = `bold ${Math.floor(canvasWidth * 0.028)}px 'Tiro Bangla', sans-serif`;
-            ctx.fillStyle = '#111111';
-            ctx.textAlign = 'left';
-            // তারিখ আরেকটু বামে ও উপরে উঠানো হয়েছে
-            ctx.fillText(dateStr, canvasWidth * 0.065, canvasH * 0.725);
-            ctx.restore();
-        }
+    const now = new Date();
+    const dateStr = getFullBanglaDateString(now);
+    
+    ctx.save();
+    ctx.font = `bold ${Math.floor(canvasWidth * 0.028)}px 'Tiro Bangla', sans-serif`;
+    ctx.fillStyle = '#111111';
+    ctx.textAlign = 'left';
+    
+    // পারফেক্ট পজিশন: 
+    // canvasWidth * 0.040 = বাম দিক থেকে সঠিক দূরত্বে থাকবে
+    // canvasH * 0.715 = সবুজ বারের নিচে একদম সুন্দরভাবে বসে যাবে (বেশি উপরে উঠবে না)
+    ctx.fillText(dateStr, canvasWidth * 0.040, canvasH * 0.715);
+    ctx.restore();
+}
+
 
         function renderOpinionQuoteAutoFit(ctx, text, canvasWidth, canvasH) {
             const initialFontSize = parseInt(document.getElementById('font-size-slider').value) * 2 || 84;
