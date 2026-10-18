@@ -477,7 +477,6 @@
                 <h1><span>বড়াইগ্রামের</span> <span style="color:var(--primary-green)">কন্ঠস্বর</span></h1>
                 <p style="color: #475569; font-size: 1.2rem; font-weight: 500;">এক ক্লিকেই তৈরি করুন প্রফেশনাল ফটোকার্ড</p>
                 
-                <!-- 3 Big Hero Buttons -->
                 <div class="main-btn-grid">
                     <button class="btn-big-hero btn-news-hero" onclick="switchView('view-form')">
                         <i class="fa-solid fa-newspaper"></i>
@@ -521,9 +520,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="red-word-count">প্রথম কয়টি শব্দ লাল রঙে হবে?</label>
+                    <label for="red-word-count">হাইলাইট শব্দের সংখ্যা (ফ্রেম ১: হলুদ / ফ্রেম ২: লাল)</label>
                     <select id="red-word-count" class="input-select">
-                        <option value="0">০টি (সব কালো)</option>
+                        <option value="0">০টি (সব এক রঙ)</option>
                         <option value="1">১টি শব্দ</option>
                         <option value="2">২টি শব্দ</option>
                         <option value="3" selected>৩টি শব্দ</option>
@@ -573,7 +572,7 @@
 
                 <div class="form-group">
                     <label for="op-source">সূত্র</label>
-                    <input type="text" id="op-source" class="input-text" placeholder="যেমন: সাক্ষাৎকার / বিশেষ বার্তা">
+                    <input type="text" id="op-source" class="input-text" placeholder="যেমন: ফেসবুক পোস্ট">
                 </div>
 
                 <button class="btn-big-hero btn-opinion-hero" style="width: 100%;" onclick="goToOpinionPreview()">
@@ -582,7 +581,7 @@
             </div>
         </div>
 
-        <!-- View 2.8: Morning Form (Shuvo Shokal) -->
+        <!-- View 2.8: Morning Form -->
         <div id="view-morning-form" class="page-view">
             <div class="glass-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:22px;">
@@ -600,8 +599,6 @@
                     </div>
                 </div>
 
-                <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 20px;">* আজকের সঠিক বাংলা, ইংরেজি ও হিজরি তারিখ সহ 'শুভ সকাল' কার্ড তৈরি হবে </p>
-
                 <button class="btn-big-hero btn-morning-hero" style="width: 100%;" onclick="goToMorningPreview()">
                     <i class="fa-solid fa-wand-magic-sparkles"></i> তৈরি করুন
                 </button>
@@ -617,7 +614,7 @@
                     <div></div>
                 </div>
 
-                <!-- News Frame Switcher (Only 1 & 2) -->
+                <!-- News Frame Switcher -->
                 <div class="control-section" id="news-frame-selector-section">
                     <div class="control-title"><i class="fa-solid fa-palette"></i> ফ্রেম ডিজাইন সিলেক্ট করুন</div>
                     <div class="control-panel" style="grid-template-columns: repeat(2, 1fr);">
@@ -761,8 +758,8 @@
         
         let newsFrames = [
             null,
-            new Image(), // Frame 1
-            new Image()  // Frame 2
+            new Image(), // Frame 1 (New)
+            new Image()  // Frame 2 (Old)
         ];
 
         let opinionFrameImage = new Image();
@@ -775,8 +772,8 @@
 
         const frameUrls = [
             "",
-            "https://i.ibb.co.com/WWtPBx7H/Pixellab-ST-20261016-143855.png", // Frame 1
-            "https://i.ibb.co.com/gNhrvdh/Pixellab-ST-20261015-041102.png"  // Frame 2
+            "https://img.sanishtech.com/u/1a40cb2b461408a5c9a9c48bd400c206.png", // Frame 1
+            "https://img.sanishtech.com/u/8f9b62adf10ebedb4f2546c5b43bc227.png"  // Frame 2
         ];
 
         for(let i=1; i<=2; i++) {
@@ -926,12 +923,42 @@
                 ctx.drawImage(activeFrame, 0, 0, canvas.width, canvas.height);
             }
 
-            // তারিখ পজিশন আরেকটু বামে ও উপরে
-            renderCalendarDate(ctx, canvas.width, canvas.height);
-            
-            // শিরোনাম টেক্সট আরেকটু উপরে এবং বাউন্ড সীমানার ভেতরে পারফেক্ট অটো-ফিট
+            renderNewsDateAndHeadline(ctx, canvas.width, canvas.height);
+        }
+
+        function renderNewsDateAndHeadline(ctx, canvasWidth, canvasH) {
+            const now = new Date();
+            const dateStr = getFullBanglaDateString(now);
             const text = document.getElementById('headline-input').value.trim();
-            if (text.length > 0) renderAutoFittingHeadline(ctx, text, canvas.width, canvas.height, 0.785);
+
+            if (currentNewsFrameIndex === 1) {
+                // *** ফ্রেম-১ (নতুন ডেমো অনুযায়ী) ***
+                // তারিখ রেন্ডারিং (সর্বশেষ ট্যাবের সাথে পারফেক্ট এক লাইনে সেন্টার এলাইন করা হয়েছে: 2620px)
+                ctx.save();
+                ctx.font = `bold 64px 'Tiro Bangla', sans-serif`;
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign = 'left';
+                ctx.fillText(dateStr, 400, 2620);
+                ctx.restore();
+
+                // শিরোনাম (হলুদ + সাদা লেখা)
+                if (text.length > 0) {
+                    renderAutoFittingHeadline(ctx, text, canvasWidth, canvasH, 0.735, '#facc15', '#ffffff');
+                }
+            } else {
+                // *** ফ্রেম-২ (পুরাতন ডেমো অনুযায়ী) ***
+                ctx.save();
+                ctx.font = `bold 60px 'Tiro Bangla', sans-serif`;
+                ctx.fillStyle = '#111111';
+                ctx.textAlign = 'left';
+                ctx.fillText(dateStr, 90, 1930);
+                ctx.restore();
+
+                // শিরোনাম (লাল + কালো লেখা)
+                if (text.length > 0) {
+                    renderAutoFittingHeadline(ctx, text, canvasWidth, canvasH, 0.785, '#e11d48', '#111111');
+                }
+            }
         }
 
         function generateOpinionPhotocard() {
@@ -941,6 +968,7 @@
             canvas.height = 2700;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            // ১. ব্যক্তির ছবি
             if (imgLoaded && userImage.complete) {
                 const targetX = canvas.width * 0.44, targetY = 0, targetW = canvas.width * 0.56, targetH = canvas.height;
                 ctx.save();
@@ -967,17 +995,21 @@
                 ctx.restore();
             }
 
+            // ২. ওভারলে ফ্রেম
             if(opinionFrameLoaded) {
                 ctx.drawImage(opinionFrameImage, 0, 0, canvas.width, canvas.height);
             }
 
+            // ৩. তারিখ - লাল বক্সে একদম মাঝামাঝি নিখুঁতভাবে নামানো হয়েছে (250px)
             renderOpinionDate(ctx, canvas.width, canvas.height);
 
+            // ৪. কোট/মতামত - তারিখের নিচ থেকে সুন্দর পজিশনে
             const quoteText = document.getElementById('op-quote').value.trim();
             if (quoteText.length > 0) {
                 renderOpinionQuoteAutoFit(ctx, quoteText, canvas.width, canvas.height);
             }
 
+            // ৫. নাম ও পদবী
             const nameText = document.getElementById('op-name').value.trim();
             const titleText = document.getElementById('op-title').value.trim();
             
@@ -985,18 +1017,19 @@
             ctx.textAlign = 'left';
             
             if (nameText.length > 0) {
-                ctx.font = `bold ${Math.floor(canvas.width * 0.036)}px 'Tiro Bangla', sans-serif`;
+                ctx.font = `bold ${Math.floor(canvas.width * 0.038)}px 'Tiro Bangla', sans-serif`;
                 ctx.fillStyle = '#ffffff';
                 ctx.fillText(nameText, canvas.width * 0.065, canvas.height * 0.770);
             }
 
             if (titleText.length > 0) {
-                ctx.font = `${Math.floor(canvas.width * 0.025)}px 'Tiro Bangla', sans-serif`;
+                ctx.font = `${Math.floor(canvas.width * 0.026)}px 'Tiro Bangla', sans-serif`;
                 ctx.fillStyle = '#cbd5e1';
                 ctx.fillText(titleText, canvas.width * 0.065, canvas.height * 0.770 + 70);
             }
             ctx.restore();
 
+            // ৬. সূত্র
             const sourceText = document.getElementById('op-source').value.trim();
             if (sourceText.length > 0) {
                 ctx.save();
@@ -1008,7 +1041,6 @@
             }
         }
 
-        // --- নতুন আল্ট্রা-স্মার্ট শুভ সকাল ডিজাইন (অরিজিনাল লোগো শেপ ও নতুন লুক) ---
         function generateMorningPhotocard() {
             const canvas = document.getElementById('photocard-canvas');
             const ctx = canvas.getContext('2d');
@@ -1016,7 +1048,6 @@
             canvas.height = 2700;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // ১. ব্যাকগ্রাউন্ড ছবি
             if (imgLoaded && userImage.complete) {
                 const imgRatio = userImage.width / userImage.height;
                 const targetRatio = canvas.width / canvas.height;
@@ -1036,101 +1067,68 @@
                 ctx.drawImage(userImage, drawX, drawY, drawW, drawH);
             }
 
-            // ২. লোগো (অরিজিনাল আসপেক্ট রেশিও বজায় রেখে চ্যাপ্টা ছাড়া বসানো)
+            let bgGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            bgGradient.addColorStop(0, 'rgba(15, 23, 42, 0.4)');
+            bgGradient.addColorStop(0.5, 'rgba(0, 0, 0, 0.0)');
+            bgGradient.addColorStop(1, 'rgba(15, 23, 42, 0.85)');
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
             if (logoImage.complete) {
                 ctx.save();
-                const logoMaxW = 420;
-                const logoMaxH = 220;
-                let lW = logoImage.width;
-                let lH = logoImage.height;
-                const lRatio = lW / lH;
-
-                if (lRatio > (logoMaxW / logoMaxH)) {
-                    lW = logoMaxW;
-                    lH = logoMaxW / lRatio;
-                } else {
-                    lH = logoMaxH;
-                    lW = logoMaxH * lRatio;
-                }
-
-                ctx.shadowColor = 'rgba(0,0,0,0.5)';
-                ctx.shadowBlur = 20;
-                ctx.shadowOffsetY = 8;
-
-                // অরিজিনাল শেপ এ সরাসরি ড্র করা
-                ctx.drawImage(logoImage, 100, 100, lW, lH);
+                const logoW = 380;
+                const logoH = 180;
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+                ctx.shadowBlur = 15;
+                roundRect(ctx, 100, 100, logoW, logoH, 20, false, false);
+                ctx.drawImage(logoImage, 100, 100, logoW, logoH);
                 ctx.restore();
             }
 
-            // ৩. প্রিমিয়াম মডার্ন গ্লাসমরফিজম তারিখ প্যানেল (বাম পাশে)
             const dateDetails = getBengaliDateDetails(new Date());
             
             ctx.save();
-            const cardX = 90, cardY = canvas.height - 780, cardW = 900, cardH = 480;
-            
-            // স্মার্ট কার্ভড প্যানেল
-            ctx.fillStyle = 'rgba(15, 23, 42, 0.60)';
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
-            ctx.shadowBlur = 30;
-            roundRect(ctx, cardX, cardY, cardW, cardH, 36, true, false);
+            const panelX = 100;
+            const panelY = canvas.height - 680;
+            const panelW = canvas.width - 200;
+            const panelH = 540;
 
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.72)';
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+            ctx.shadowBlur = 40;
+            roundRect(ctx, panelX, panelY, panelW, panelH, 40, true, false);
+
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
             ctx.lineWidth = 3;
-            roundRect(ctx, cardX, cardY, cardW, cardH, 36, false, true);
+            roundRect(ctx, panelX, panelY, panelW, panelH, 40, false, true);
+
+            ctx.fillStyle = '#059669';
+            roundRect(ctx, panelX + 50, panelY + 60, 14, panelH - 120, 7, true, false);
 
             ctx.shadowColor = 'transparent';
-            ctx.fillStyle = '#ffffff';
+            ctx.fillStyle = '#facc15';
             ctx.textAlign = 'left';
+            ctx.font = `800 110px 'Tiro Bangla', sans-serif`;
+            ctx.fillText('শুভ সকাল', panelX + 90, panelY + 160);
 
-            ctx.font = `bold 54px 'Tiro Bangla', sans-serif`;
-            ctx.fillText(`আজ ${dateDetails.dayName},`, cardX + 60, cardY + 110);
-
-            ctx.font = `bold 58px 'Tiro Bangla', sans-serif`;
-            ctx.fillStyle = '#f8fafc';
-            ctx.fillText(`${dateDetails.enDateStr}`, cardX + 60, cardY + 205);
-
-            ctx.font = `52px 'Tiro Bangla', sans-serif`;
-            ctx.fillStyle = '#e2e8f0';
-            ctx.fillText(`${dateDetails.bnDateStr}`, cardX + 60, cardY + 295);
-
-            ctx.font = `50px 'Tiro Bangla', sans-serif`;
-            ctx.fillStyle = '#cbd5e1';
-            ctx.fillText(`${dateDetails.hijriStr}`, cardX + 60, cardY + 385);
-
-            ctx.restore();
-
-            // ৪. নতুন স্টাইলিশ 'শুভ সকাল' ব্যানার (ডান পাশে)
-            ctx.save();
-            const morningX = canvas.width - 1020, morningY = canvas.height - 700;
-            
-            // শুভ সকাল গ্লো ব্যানার
-            let g1 = ctx.createLinearGradient(morningX, morningY, morningX + 920, morningY);
-            g1.addColorStop(0, '#ea580c');
-            g1.addColorStop(1, '#f97316');
-            ctx.fillStyle = g1;
-            ctx.shadowColor = 'rgba(234, 88, 12, 0.4)';
-            ctx.shadowBlur = 25;
-            roundRect(ctx, morningX, morningY, 920, 170, 30, true, false);
-
-            ctx.shadowColor = 'transparent';
-            ctx.font = `bold 96px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#ffffff';
-            ctx.textAlign = 'center';
-            ctx.fillText('শুভ সকাল', morningX + 460, morningY + 120);
+            ctx.font = `600 56px 'Tiro Bangla', sans-serif`;
+            ctx.fillText('আপনার দিনটি আনন্দময় ও সাফল্যমণ্ডিত হোক', panelX + 90, panelY + 250);
 
-            // আপনার দিন শুভ হোক ক্যাপসুল ব্যাজ
-            let g2 = ctx.createLinearGradient(morningX - 60, morningY + 210, morningX + 960, morningY + 210);
-            g2.addColorStop(0, '#fef08a');
-            g2.addColorStop(1, '#fde047');
-            ctx.fillStyle = g2;
-            ctx.shadowColor = 'rgba(0,0,0,0.2)';
-            ctx.shadowBlur = 18;
-            roundRect(ctx, morningX - 60, morningY + 210, 980, 135, 30, true, false);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(panelX + 90, panelY + 310);
+            ctx.lineTo(panelX + panelW - 90, panelY + 310);
+            ctx.stroke();
 
-            ctx.shadowColor = 'transparent';
-            ctx.font = `bold 62px 'Tiro Bangla', sans-serif`;
-            ctx.fillStyle = '#1e3a8a';
-            ctx.fillText('আপনার দিন শুভ হোক', morningX + 430, morningY + 300);
+            ctx.font = `600 48px 'Tiro Bangla', sans-serif`;
+            ctx.fillStyle = '#e2e8f0';
+            ctx.fillText(`আজ ${dateDetails.dayName} | ${dateDetails.enDateStr}`, panelX + 90, panelY + 395);
+
+            ctx.font = `500 42px 'Tiro Bangla', sans-serif`;
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText(`${dateDetails.bnDateStr} • ${dateDetails.hijriStr}`, panelX + 90, panelY + 465);
 
             ctx.restore();
         }
@@ -1151,38 +1149,22 @@
             if (stroke) ctx.stroke();
         }
 
+        // মতামত কার্ডের তারিখ (লাল বক্সের একদম মাঝখানে ভার্টিক্যালি নামানো হয়েছে)
         function renderOpinionDate(ctx, canvasWidth, canvasH) {
             const now = new Date();
             const dateStr = getFullBanglaDateString(now);
             
             ctx.save();
-            ctx.font = `bold ${Math.floor(canvasWidth * 0.030)}px 'Tiro Bangla', sans-serif`;
+            ctx.font = `bold 60px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'left';
-            ctx.fillText(dateStr, canvasWidth * 0.065, canvasH * 0.725);
+            ctx.fillText(dateStr, 80, 250);
             ctx.restore();
         }
 
-        function renderCalendarDate(ctx, canvasWidth, canvasH) {
-    const now = new Date();
-    const dateStr = getFullBanglaDateString(now);
-    
-    ctx.save();
-    ctx.font = `bold ${Math.floor(canvasWidth * 0.028)}px 'Tiro Bangla', sans-serif`;
-    ctx.fillStyle = '#111111';
-    ctx.textAlign = 'left';
-    
-    // পারফেক্ট পজিশন: 
-    // canvasWidth * 0.040 = বাম দিক থেকে সঠিক দূরত্বে থাকবে
-    // canvasH * 0.715 = সবুজ বারের নিচে একদম সুন্দরভাবে বসে যাবে (বেশি উপরে উঠবে না)
-    ctx.fillText(dateStr, canvasWidth * 0.040, canvasH * 0.715);
-    ctx.restore();
-}
-
-
         function renderOpinionQuoteAutoFit(ctx, text, canvasWidth, canvasH) {
             const initialFontSize = parseInt(document.getElementById('font-size-slider').value) * 2 || 84;
-            const maxLineWidth = canvasWidth * 0.42; 
+            const maxLineWidth = canvasWidth * 0.40; 
             const maxAllowedHeight = canvasH * 0.38;  
             const startY = canvasH * 0.36;
 
@@ -1229,26 +1211,24 @@
             });
         }
 
-        // নিউজ শিরোনাম অটো-ফিট ও বাউন্ড কন্ট্রোল (সীমানার বাইরে যাবে না)
-        function renderAutoFittingHeadline(ctx, text, canvasWidth, canvasH, startYRatio) {
+        function renderAutoFittingHeadline(ctx, text, canvasWidth, canvasH, startYRatio, primaryColor, secondaryColor) {
             const redCount = parseInt(document.getElementById('red-word-count').value);
             const userFontSize = parseInt(document.getElementById('font-size-slider').value) * 2;
             const words = text.split(/\s+/);
             const startY = canvasH * startYRatio;
             const maxLineWidth = canvasWidth - 280;
-            const maxAllowedHeight = canvasH * 0.17; // সর্বোচ্চ সীমানা নিয়ন্ত্রণ
+            const maxAllowedHeight = canvasH * 0.17;
 
             let fontSize = userFontSize;
             let lines = [];
             let tokens = [];
 
             words.forEach((w, idx) => {
-                tokens.push({ text: w + " ", color: (idx < redCount) ? '#e11d48' : '#111111' });
+                tokens.push({ text: w + " ", color: (idx < redCount) ? primaryColor : secondaryColor });
             });
 
             let lineHeight = fontSize * 1.32;
 
-            // টেক্সট যেন কোনোভাবেই বক্সের বাইরে না যায় তার নিরাপদ অটো-ডাউনস্কেলিং লুপ
             while (fontSize >= 38) {
                 ctx.font = `bold ${fontSize}px 'Tiro Bangla', sans-serif`;
                 lines = [];
