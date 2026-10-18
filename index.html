@@ -465,7 +465,7 @@
 
     <!-- News Ticker -->
     <div class="ticker-wrapper">
-        <div class="ticker-title"><i class="fa-solid fa-bullhorn" style="margin-right: 8px;"></i>ডেভলপর</div>
+        <div class="ticker-title"><i class="fa-solid fa-bullhorn" style="margin-right: 8px;"></i>ডেভলপার</div>
         <div class="marquee-content">
         নিউজ ম্যানেজমেন্ট সফটওয়্যার || ডিজাইন ও ডেভেলপমেন্ট: "রাফি ডিজিটাল সলিউশন" || যোগাযোগ: ০১৭৬৩৭৫২৬৫৩</div>
     </div>
@@ -758,8 +758,8 @@
         
         let newsFrames = [
             null,
-            new Image(), // Frame 1 (New)
-            new Image()  // Frame 2 (Old)
+            new Image(), // Frame 1
+            new Image()  // Frame 2
         ];
 
         let opinionFrameImage = new Image();
@@ -778,12 +778,16 @@
 
         for(let i=1; i<=2; i++) {
             newsFrames[i].crossOrigin = "anonymous";
+            newsFrames[i].onload = () => { generatePhotocard(); };
             newsFrames[i].src = frameUrls[i];
         }
 
         opinionFrameImage.crossOrigin = "anonymous";
+        opinionFrameImage.onload = () => { 
+            opinionFrameLoaded = true; 
+            generatePhotocard();
+        };
         opinionFrameImage.src = "https://i.ibb.co/Y4cdjhdG/Pixellab-ST-20261015-185646.png";
-        opinionFrameImage.onload = () => { opinionFrameLoaded = true; };
 
         const setupDropZone = (zoneId, inputId, textId) => {
             const zone = document.getElementById(zoneId);
@@ -813,6 +817,7 @@
                     imgLoaded = true;
                     imgState = { x: 0, y: 0, scale: 1.0 };
                     document.getElementById(textId).innerText = `সংযুক্ত ছবি: ${file.name}`;
+                    generatePhotocard();
                 };
                 userImage.src = e.target.result;
             };
@@ -876,6 +881,9 @@
         }
 
         function generatePhotocard() {
+            const canvas = document.getElementById('photocard-canvas');
+            if(!canvas) return;
+            
             if (currentMode === 'news') {
                 generateNewsPhotocard();
             } else if (currentMode === 'opinion') {
@@ -923,7 +931,6 @@
                 ctx.drawImage(activeFrame, 0, 0, canvas.width, canvas.height);
             }
 
-            // ফ্রেম অনুযায়ী পৃথক তারিখ ও টেক্সট কালার লজিক
             renderNewsDateAndHeadline(ctx, canvas.width, canvas.height);
         }
 
@@ -933,22 +940,17 @@
             const text = document.getElementById('headline-input').value.trim();
 
             if (currentNewsFrameIndex === 1) {
-                // *** ফ্রেম-১ (নতুন ডেমো অনুযায়ী) ***
-                // তারিখ রেন্ডারিং (কালো বটম বারের উপর, হলুদ সর্বশেষ ট্যাবের ডানে)
                 ctx.save();
                 ctx.font = `bold 64px 'Tiro Bangla', sans-serif`;
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign = 'left';
-                ctx.fillText(dateStr, 390, 2580);
+                ctx.fillText(dateStr, 400, 2620);
                 ctx.restore();
 
-                // শিরোনাম (হলুদ + সাদা লেখা)
                 if (text.length > 0) {
                     renderAutoFittingHeadline(ctx, text, canvasWidth, canvasH, 0.735, '#facc15', '#ffffff');
                 }
             } else {
-                // *** ফ্রেম-২ (পুরাতন ডেমো অনুযায়ী) ***
-                // তারিখ রেন্ডারিং (সবুজ বারের নিচে বাম পাশে)
                 ctx.save();
                 ctx.font = `bold 60px 'Tiro Bangla', sans-serif`;
                 ctx.fillStyle = '#111111';
@@ -956,7 +958,6 @@
                 ctx.fillText(dateStr, 90, 1930);
                 ctx.restore();
 
-                // শিরোনাম (লাল + কালো লেখা)
                 if (text.length > 0) {
                     renderAutoFittingHeadline(ctx, text, canvasWidth, canvasH, 0.785, '#e11d48', '#111111');
                 }
@@ -970,7 +971,6 @@
             canvas.height = 2700;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // ১. ব্যক্তির ছবি
             if (imgLoaded && userImage.complete) {
                 const targetX = canvas.width * 0.44, targetY = 0, targetW = canvas.width * 0.56, targetH = canvas.height;
                 ctx.save();
@@ -997,21 +997,17 @@
                 ctx.restore();
             }
 
-            // ২. ওভারলে ফ্রেম
-            if(opinionFrameLoaded) {
+            if(opinionFrameLoaded && opinionFrameImage.complete) {
                 ctx.drawImage(opinionFrameImage, 0, 0, canvas.width, canvas.height);
             }
 
-            // ৩. তারিখ - একদম উপরে লাল শেপের ভেতরে (স্ক্রিনশটের ডেমো অনুযায়ী)
             renderOpinionDate(ctx, canvas.width, canvas.height);
 
-            // ৪. কোট/মতামত - তারিখের নিচ থেকে সুন্দর পজিশনে
             const quoteText = document.getElementById('op-quote').value.trim();
             if (quoteText.length > 0) {
                 renderOpinionQuoteAutoFit(ctx, quoteText, canvas.width, canvas.height);
             }
 
-            // ৫. নাম ও পদবী
             const nameText = document.getElementById('op-name').value.trim();
             const titleText = document.getElementById('op-title').value.trim();
             
@@ -1031,7 +1027,6 @@
             }
             ctx.restore();
 
-            // ৬. সূত্র
             const sourceText = document.getElementById('op-source').value.trim();
             if (sourceText.length > 0) {
                 ctx.save();
@@ -1151,25 +1146,23 @@
             if (stroke) ctx.stroke();
         }
 
-        // মতামত কার্ডের তারিখ (একদম উপরে লাল বক্সে নিখুঁতভাবে বসানো)
         function renderOpinionDate(ctx, canvasWidth, canvasH) {
             const now = new Date();
             const dateStr = getFullBanglaDateString(now);
             
             ctx.save();
-            ctx.font = `bold 62px 'Tiro Bangla', sans-serif`;
+            ctx.font = `bold 60px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'left';
-            ctx.fillText(dateStr, 80, 205);
+            ctx.fillText(dateStr, 80, 250);
             ctx.restore();
         }
 
-        // মতামত কার্ডের বক্তব্য/কোট (তারিখের নিচ থেকে শুরু)
         function renderOpinionQuoteAutoFit(ctx, text, canvasWidth, canvasH) {
             const initialFontSize = parseInt(document.getElementById('font-size-slider').value) * 2 || 84;
             const maxLineWidth = canvasWidth * 0.40; 
             const maxAllowedHeight = canvasH * 0.38;  
-            const startY = canvasH * 0.35; // তারিখের নিচে সুন্দর ব্যবধানে নামানো হয়েছে
+            const startY = canvasH * 0.36;
 
             let fontSize = initialFontSize;
             let lines = [];
@@ -1214,7 +1207,6 @@
             });
         }
 
-        // ডায়নামিক কালার সহ নিউজ শিরোনাম অটোগ্রাফিক্স
         function renderAutoFittingHeadline(ctx, text, canvasWidth, canvasH, startYRatio, primaryColor, secondaryColor) {
             const redCount = parseInt(document.getElementById('red-word-count').value);
             const userFontSize = parseInt(document.getElementById('font-size-slider').value) * 2;
