@@ -465,7 +465,7 @@
 
     <!-- News Ticker -->
     <div class="ticker-wrapper">
-        <div class="ticker-title"><i class="fa-solid fa-bullhorn" style="margin-right: 8px;"></i>ডেভলপার</div>
+        <div class="ticker-title"><i class="fa-solid fa-bullhorn" style="margin-right: 8px;"></i>ডেভলপর</div>
         <div class="marquee-content">
         নিউজ ম্যানেজমেন্ট সফটওয়্যার || ডিজাইন ও ডেভেলপমেন্ট: "রাফি ডিজিটাল সলিউশন" || যোগাযোগ: ০১৭৬৩৭৫২৬৫৩</div>
     </div>
@@ -923,6 +923,7 @@
                 ctx.drawImage(activeFrame, 0, 0, canvas.width, canvas.height);
             }
 
+            // ফ্রেম অনুযায়ী পৃথক তারিখ ও টেক্সট কালার লজিক
             renderNewsDateAndHeadline(ctx, canvas.width, canvas.height);
         }
 
@@ -933,12 +934,12 @@
 
             if (currentNewsFrameIndex === 1) {
                 // *** ফ্রেম-১ (নতুন ডেমো অনুযায়ী) ***
-                // তারিখ রেন্ডারিং (সর্বশেষ ট্যাবের সাথে পারফেক্ট এক লাইনে সেন্টার এলাইন করা হয়েছে: 2620px)
+                // তারিখ রেন্ডারিং (কালো বটম বারের উপর, হলুদ সর্বশেষ ট্যাবের ডানে)
                 ctx.save();
                 ctx.font = `bold 64px 'Tiro Bangla', sans-serif`;
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign = 'left';
-                ctx.fillText(dateStr, 400, 2620);
+                ctx.fillText(dateStr, 390, 2580);
                 ctx.restore();
 
                 // শিরোনাম (হলুদ + সাদা লেখা)
@@ -947,6 +948,7 @@
                 }
             } else {
                 // *** ফ্রেম-২ (পুরাতন ডেমো অনুযায়ী) ***
+                // তারিখ রেন্ডারিং (সবুজ বারের নিচে বাম পাশে)
                 ctx.save();
                 ctx.font = `bold 60px 'Tiro Bangla', sans-serif`;
                 ctx.fillStyle = '#111111';
@@ -1000,7 +1002,7 @@
                 ctx.drawImage(opinionFrameImage, 0, 0, canvas.width, canvas.height);
             }
 
-            // ৩. তারিখ - লাল বক্সে একদম মাঝামাঝি নিখুঁতভাবে নামানো হয়েছে (250px)
+            // ৩. তারিখ - একদম উপরে লাল শেপের ভেতরে (স্ক্রিনশটের ডেমো অনুযায়ী)
             renderOpinionDate(ctx, canvas.width, canvas.height);
 
             // ৪. কোট/মতামত - তারিখের নিচ থেকে সুন্দর পজিশনে
@@ -1149,24 +1151,25 @@
             if (stroke) ctx.stroke();
         }
 
-        // মতামত কার্ডের তারিখ (লাল বক্সের একদম মাঝখানে ভার্টিক্যালি নামানো হয়েছে)
+        // মতামত কার্ডের তারিখ (একদম উপরে লাল বক্সে নিখুঁতভাবে বসানো)
         function renderOpinionDate(ctx, canvasWidth, canvasH) {
             const now = new Date();
             const dateStr = getFullBanglaDateString(now);
             
             ctx.save();
-            ctx.font = `bold 60px 'Tiro Bangla', sans-serif`;
+            ctx.font = `bold 62px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'left';
-            ctx.fillText(dateStr, 80, 250);
+            ctx.fillText(dateStr, 80, 205);
             ctx.restore();
         }
 
+        // মতামত কার্ডের বক্তব্য/কোট (তারিখের নিচ থেকে শুরু)
         function renderOpinionQuoteAutoFit(ctx, text, canvasWidth, canvasH) {
             const initialFontSize = parseInt(document.getElementById('font-size-slider').value) * 2 || 84;
             const maxLineWidth = canvasWidth * 0.40; 
             const maxAllowedHeight = canvasH * 0.38;  
-            const startY = canvasH * 0.36;
+            const startY = canvasH * 0.35; // তারিখের নিচে সুন্দর ব্যবধানে নামানো হয়েছে
 
             let fontSize = initialFontSize;
             let lines = [];
@@ -1211,6 +1214,7 @@
             });
         }
 
+        // ডায়নামিক কালার সহ নিউজ শিরোনাম অটোগ্রাফিক্স
         function renderAutoFittingHeadline(ctx, text, canvasWidth, canvasH, startYRatio, primaryColor, secondaryColor) {
             const redCount = parseInt(document.getElementById('red-word-count').value);
             const userFontSize = parseInt(document.getElementById('font-size-slider').value) * 2;
