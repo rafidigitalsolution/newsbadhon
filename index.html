@@ -642,7 +642,7 @@
 
                 <div class="form-group">
                     <label for="epaper-body">সংবাদের বিস্তারিত বিবরণ</label>
-                    <textarea id="epaper-body" class="input-text" rows="6" placeholder="সংবাদের বিস্তারিত প্যারাগ্রাফ বা প্রতিবেদন এখানে লিখুন..."></textarea>
+                    <textarea id="epaper-body" class="input-text" rows="6" placeholder="সংবাদের বিস্তারিত প্রতিবেদন এখানে লিখুন..."></textarea>
                 </div>
 
                 <button class="btn-big-hero btn-epaper-hero" style="width: 100%;" onclick="goToEpaperPreview()">
@@ -658,6 +658,15 @@
                     <button class="ctrl-btn" onclick="goBackToForm()"><i class="fa-solid fa-arrow-left"></i> এডিট করুন</button>
                     <h2 style="font-size: 1.4rem; font-weight: 700;">প্রিভিউ ও এডজাস্টমেন্ট</h2>
                     <div></div>
+                </div>
+
+                <!-- E-Paper Mode Switcher (Color / Black & White) -->
+                <div class="control-section" id="epaper-theme-section" style="display: none;">
+                    <div class="control-title"><i class="fa-solid fa-sliders"></i> ই-পেপার থিম নির্বাচন করুন</div>
+                    <div class="control-panel" style="grid-template-columns: repeat(2, 1fr);">
+                        <button class="ctrl-btn active-frame" id="epaper-theme-color" onclick="setEpaperTheme('color')"><i class="fa-solid fa-palette"></i> রঙিন (Color)</button>
+                        <button class="ctrl-btn" id="epaper-theme-bw" onclick="setEpaperTheme('bw')"><i class="fa-solid fa-circle-half-stroke"></i> সাদা-কালো (B&W)</button>
+                    </div>
                 </div>
 
                 <!-- News Frame Switcher -->
@@ -799,6 +808,7 @@
         }
 
         let currentMode = 'news';
+        let epaperTheme = 'color'; // 'color' or 'bw'
         let currentNewsFrameIndex = 1;
         let userImage = new Image();
         let logoImage = new Image();
@@ -819,17 +829,15 @@
         logoImage.crossOrigin = "anonymous";
         logoImage.src = "https://i.ibb.co.com/tp271RPg/IMG-20261008-WA0019.jpg";
 
+        // নতুন ই-পেপার হেডার
         epaperHeaderImage.crossOrigin = "anonymous";
-        epaperHeaderImage.onload = () => { 
-            epaperHeaderLoaded = true; 
-            generatePhotocard();
-        };
-        epaperHeaderImage.src = "https://i.ibb.co.com/5gqnmC84/87af7676-e552-4c55-b881-ede15e34a4f8.png";
+        epaperHeaderImage.onload = () => { epaperHeaderLoaded = true; generatePhotocard(); };
+        epaperHeaderImage.src = "https://i.ibb.co.com/0jVcp7Bx/Pixellab-ST-20261021-102828.png";
 
         const frameUrls = [
             "",
-            "https://i.ibb.co.com/Q3cfMXRM/Pixellab-ST-20261017-175836.png", // Frame 1 (নতুন)
-            "https://i.ibb.co.com/RpJpQhJP/Pixellab-ST-20261016-143855.png"  // Frame 2 (পুরাতন)
+            "https://i.ibb.co.com/Q3cfMXRM/Pixellab-ST-20261017-175836.png", // Frame 1
+            "https://i.ibb.co.com/RpJpQhJP/Pixellab-ST-20261016-143855.png"  // Frame 2
         ];
 
         for(let i=1; i<=2; i++) {
@@ -889,9 +897,18 @@
             generatePhotocard();
         }
 
+        function setEpaperTheme(theme) {
+            epaperTheme = theme;
+            document.getElementById('epaper-theme-color').classList.remove('active-frame');
+            document.getElementById('epaper-theme-bw').classList.remove('active-frame');
+            document.getElementById(`epaper-theme-${theme}`).classList.add('active-frame');
+            generatePhotocard();
+        }
+
         function goToPreview() {
             if (!imgLoaded) { alert('অনুগ্রহ করে সংবাদের ছবি আপলোড করুন!'); return; }
             currentMode = 'news';
+            document.getElementById('epaper-theme-section').style.display = 'none';
             document.getElementById('news-frame-selector-section').style.display = 'block';
             document.getElementById('font-slider-section').style.display = 'block';
             document.getElementById('image-controls-section').style.display = 'block';
@@ -903,6 +920,7 @@
         function goToOpinionPreview() {
             if (!imgLoaded) { alert('অনুগ্রহ করে ব্যক্তির ছবি আপলোড করুন!'); return; }
             currentMode = 'opinion';
+            document.getElementById('epaper-theme-section').style.display = 'none';
             document.getElementById('news-frame-selector-section').style.display = 'none';
             document.getElementById('font-slider-section').style.display = 'block';
             document.getElementById('image-controls-section').style.display = 'block';
@@ -914,6 +932,7 @@
         function goToMorningPreview() {
             if (!imgLoaded) { alert('অনুগ্রহ করে শুভ সকালের ছবি আপলোড করুন!'); return; }
             currentMode = 'morning';
+            document.getElementById('epaper-theme-section').style.display = 'none';
             document.getElementById('news-frame-selector-section').style.display = 'none';
             document.getElementById('font-slider-section').style.display = 'none';
             document.getElementById('image-controls-section').style.display = 'block';
@@ -925,6 +944,7 @@
         function goToEpaperPreview() {
             if (!imgLoaded) { alert('অনুগ্রহ করে সংবাদের ছবি আপলোড করুন!'); return; }
             currentMode = 'epaper';
+            document.getElementById('epaper-theme-section').style.display = 'block';
             document.getElementById('news-frame-selector-section').style.display = 'none';
             document.getElementById('font-slider-section').style.display = 'none';
             document.getElementById('image-controls-section').style.display = 'block';
@@ -1204,43 +1224,46 @@
             ctx.restore();
         }
 
+        /* ---------------- E-PAPER GENERATION FUNCTION ---------------- */
         function generateEpaperPhotocard() {
             const canvas = document.getElementById('photocard-canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = 2160;
             canvas.height = 2700;
+
+            // সাদা ব্যাকগ্রাউন্ড
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // ১. ই-পেপার হেডার ইমেজ
+            // ১. নতুন হেডার ইমেজ ড্র করা
             if (epaperHeaderLoaded && epaperHeaderImage.complete) {
                 const headerH = 340;
                 ctx.drawImage(epaperHeaderImage, 0, 0, canvas.width, headerH);
             }
 
-            // ২. তারিখ বার
+            // ২. তারিখ বার (Date Bar)
             const now = new Date();
             const dateStr = getFullBanglaDateString(now);
             const dateBarY = 340;
-            const dateBarH = 80;
+            const dateBarH = 75;
 
-            ctx.fillStyle = '#0f172a';
+            ctx.fillStyle = epaperTheme === 'bw' ? '#1e293b' : '#047857';
             ctx.fillRect(0, dateBarY, canvas.width, dateBarH);
 
             ctx.save();
-            ctx.font = `bold 42px 'Tiro Bangla', sans-serif`;
+            ctx.font = `bold 40px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'center';
-            ctx.fillText(`প্রিন্ট এর তারিখ: ${dateStr} || প্রকাশের তারিখ: ${dateStr}`, canvas.width / 2, dateBarY + 54);
+            ctx.fillText(`প্রিন্ট এর তারিখ: ${dateStr}  ||  প্রকাশের তারিখ: ${dateStr}`, canvas.width / 2, dateBarY + 50);
             ctx.restore();
 
-            // ৩. শিরোনাম
+            // ৩. মূল শিরোনাম (Headline)
             const headline = document.getElementById('epaper-headline').value.trim();
             let currentY = dateBarY + dateBarH + 90;
 
             if (headline.length > 0) {
                 ctx.save();
-                ctx.font = `bold 68px 'Tiro Bangla', sans-serif`;
+                ctx.font = `bold 72px 'Tiro Bangla', sans-serif`;
                 ctx.fillStyle = '#0f172a';
                 ctx.textAlign = 'center';
                 
@@ -1262,17 +1285,17 @@
 
                 lines.forEach(line => {
                     ctx.fillText(line.trim(), canvas.width / 2, currentY);
-                    currentY += 88;
+                    currentY += 92;
                 });
                 ctx.restore();
-                currentY += 20;
+                currentY += 25;
             } else {
                 currentY += 20;
             }
 
-            // ৪. সংবাদের ছবি (বামে)
+            // ৪. সংবাদের মূল ছবি (Left Side)
             const imgWidth = 920;
-            const imgHeight = 620;
+            const imgHeight = 600;
             const imgX = 80;
             const imgY = currentY;
 
@@ -1300,34 +1323,33 @@
                 ctx.drawImage(userImage, drawX, drawY, drawW, drawH);
                 ctx.restore();
 
-                // ছবির বর্ডার
-                ctx.strokeStyle = '#cbd5e1';
-                ctx.lineWidth = 4;
+                // ছবির চারপাশের প্রফেশনাল বর্ডার
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 3;
                 ctx.strokeRect(imgX, imgY, imgWidth, imgHeight);
             }
 
-            // ৫. ছবির ডানপাশের লেখা
+            // ৫. সংবাদের বিস্তারিত এবং "নিউজ ডেস্ক:" লেখা
             const rawBodyText = document.getElementById('epaper-body').value.trim();
             const fullText = rawBodyText.length > 0 ? rawBodyText : "";
-
-            const footerY = 2480;
+            const footerY = 2500;
             const maxAllowedY = footerY - 50;
 
             const rightColumnX = 1040;
             const rightColumnWidth = canvas.width - rightColumnX - 80;
 
-            let fontSize = 38;
-            let lineHeight = 56;
+            let fontSize = 37;
+            let lineHeight = 55;
             let words = fullText.split(/\s+/);
 
             ctx.save();
-            ctx.font = `400 ${fontSize}px 'Tiro Bangla', sans-serif`;
 
+            // ছবির ডানপাশের অংশ ফিলআপ
             let wordIndex = 0;
-            let textY = imgY + 42;
+            let textY = imgY + 40;
 
-            // 'নিউজ ডেস্ক:' বোল্ড করে আঁকা
-            ctx.font = `bold ${fontSize + 2}px 'Tiro Bangla', sans-serif`;
+            // 'নিউজ ডেস্ক:' বোল্ড ফরমেটে আঁকা
+            ctx.font = `bold ${fontSize + 3}px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#0f172a';
             ctx.fillText("নিউজ ডেস্ক: ", rightColumnX, textY);
             let prefixWidth = ctx.measureText("নিউজ ডেস্ক: ").width;
@@ -1358,15 +1380,25 @@
                 textY += lineHeight;
             }
 
-            // ৬. ছবির নিচের অংশ: ৩ কলাম লেআউট (৩-Columns)
+            // ৬. প্রফেশনাল ৩-কলাম (3-Columns) লেআউট তৈরি
             const start3ColY = imgY + imgHeight + 40;
-            const colGap = 40;
+            const colGap = 45;
             const totalWidth = canvas.width - 160;
             const colWidth = (totalWidth - (colGap * 2)) / 3;
 
             const col1X = 80;
             const col2X = col1X + colWidth + colGap;
             const col3X = col2X + colWidth + colGap;
+
+            // কলামের মাঝখানের ডিভাইডার লাইন ড্র করা
+            ctx.strokeStyle = '#cbd5e1';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(col1X + colWidth + (colGap/2), start3ColY - 10);
+            ctx.lineTo(col1X + colWidth + (colGap/2), maxAllowedY);
+            ctx.moveTo(col2X + colWidth + (colGap/2), start3ColY - 10);
+            ctx.lineTo(col2X + colWidth + (colGap/2), maxAllowedY);
+            ctx.stroke();
 
             let colY = start3ColY;
             let currentCol = 1;
@@ -1406,24 +1438,37 @@
 
             ctx.restore();
 
-            // ৭. ই-পেপার ফুটার
-            ctx.strokeStyle = '#059669';
-            ctx.lineWidth = 6;
+            // ৭. ই-পেপার নির্দিষ্ট ফুটার (Footer Area)
+            ctx.strokeStyle = epaperTheme === 'bw' ? '#0f172a' : '#059669';
+            ctx.lineWidth = 5;
             ctx.beginPath();
-            ctx.moveTo(80, footerY - 30);
-            ctx.lineTo(canvas.width - 80, footerY - 30);
+            ctx.moveTo(80, footerY - 20);
+            ctx.lineTo(canvas.width - 80, footerY - 20);
             ctx.stroke();
 
             ctx.save();
             ctx.font = `bold 48px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#0f172a';
             ctx.textAlign = 'center';
-            ctx.fillText("সম্পাদক ও প্রকাশক : বেলহাজ উদ্দিন বাঁধন", canvas.width / 2, footerY + 30);
+            ctx.fillText("সম্পাদক ও প্রকাশক : বেলহাজ উদ্দিন বাঁধন", canvas.width / 2, footerY + 40);
 
             ctx.font = `600 40px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#64748b';
-            ctx.fillText("© ২০২৬ সর্বস্বত্ব সংরক্ষিত- বড়াইগ্রামের কণ্ঠস্বর", canvas.width / 2, footerY + 95);
+            ctx.fillText("© ২০২৬ সর্বস্বত্ব সংরক্ষিত- বড়াইগ্রামের কণ্ঠস্বর", canvas.width / 2, footerY + 105);
             ctx.restore();
+
+            // ৮. ফিল্টার ইফেক্ট (যদি সাদা-কালো সিলেক্ট করা হয়)
+            if (epaperTheme === 'bw') {
+                let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                let data = imgData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    let brightness = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
+                    data[i] = brightness;     // Red
+                    data[i + 1] = brightness; // Green
+                    data[i + 2] = brightness; // Blue
+                }
+                ctx.putImageData(imgData, 0, 0);
+            }
         }
 
         function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
@@ -1593,7 +1638,7 @@
         function downloadPhotocard() {
             const canvas = document.getElementById('photocard-canvas');
             const link = document.createElement('a');
-            link.download = `baraigramerkonthaswar-${currentMode}-4k.png`;
+            link.download = `baraigramerkonthaswar-${currentMode}-${epaperTheme}-4k.png`;
             link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
         }
