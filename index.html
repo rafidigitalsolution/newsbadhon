@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>বড়াইগ্রামের কন্ঠস্বর - প্রিমিয়াম ফটোকার্ড জেনারেটর</title>
+    <title>বড়াইগ্রামের কন্ঠস্বর - প্রিমিয়াম ফটোকার্ড ও ই-পেপার জেনারেটর</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
@@ -14,6 +14,7 @@
             --primary-red: #e11d48;
             --primary-green: #059669;
             --primary-orange: #ea580c;
+            --primary-purple: #7c3aed;
             --dark-black: #0f172a;
             --pure-white: #ffffff;
             --glass-bg: rgba(255, 255, 255, 0.92);
@@ -149,18 +150,18 @@
             transform: translateY(0) scale(1);
         }
 
-        /* 3 Big Premium Animated Buttons */
+        /* Big Hero Buttons */
         .main-btn-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
             width: 100%;
             margin-top: 25px;
         }
 
         .btn-big-hero {
-            padding: 24px 28px;
-            font-size: 1.25rem;
+            padding: 24px 20px;
+            font-size: 1.15rem;
             font-weight: 800;
             border: none;
             border-radius: 24px;
@@ -178,7 +179,7 @@
         }
 
         .btn-big-hero i {
-            font-size: 2.2rem;
+            font-size: 2rem;
             transition: transform 0.3s ease;
         }
 
@@ -200,6 +201,12 @@
 
         .btn-morning-hero {
             background: linear-gradient(135deg, #ea580c 0%, #f97316 50%, #eab308 100%);
+            background-size: 200% auto;
+            animation: gradientShift 5s ease infinite;
+        }
+
+        .btn-epaper-hero {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #059669 100%);
             background-size: 200% auto;
             animation: gradientShift 5s ease infinite;
         }
@@ -475,7 +482,7 @@
         <div id="view-home" class="page-view active">
             <div class="glass-card hero-card">
                 <h1><span>বড়াইগ্রামের</span> <span style="color:var(--primary-green)">কন্ঠস্বর</span></h1>
-                <p style="color: #475569; font-size: 1.2rem; font-weight: 500;">এক ক্লিকেই তৈরি করুন প্রফেশনাল ফটোকার্ড</p>
+                <p style="color: #475569; font-size: 1.2rem; font-weight: 500;">এক ক্লিকেই তৈরি করুন প্রফেশনাল ফটোকার্ড ও ই-পেপার</p>
                 
                 <div class="main-btn-grid">
                     <button class="btn-big-hero btn-news-hero" onclick="switchView('view-form')">
@@ -490,7 +497,12 @@
 
                     <button class="btn-big-hero btn-morning-hero" onclick="switchView('view-morning-form')">
                         <i class="fa-solid fa-sun"></i>
-                        <span>শুভ সকাল ফটোকার্ড</span>
+                        <span>শুভ সকাল</span>
+                    </button>
+
+                    <button class="btn-big-hero btn-epaper-hero" onclick="switchView('view-epaper-form')">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <span>ই-পেপার পাতা</span>
                     </button>
                 </div>
             </div>
@@ -537,7 +549,7 @@
             </div>
         </div>
 
-        <!-- View 2.5: Opinion Form -->
+        <!-- View 2.1: Opinion Form -->
         <div id="view-opinion-form" class="page-view">
             <div class="glass-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:22px;">
@@ -550,7 +562,7 @@
                     <label>ব্যক্তির ছবি নির্বাচন করুন</label>
                     <div class="drop-zone" id="op-drop-zone" onclick="document.getElementById('op-img-input').click()">
                         <i class="fa-solid fa-user-circle"></i>
-                        <p id="op-drop-text" style="font-weight: 600; font-size: 1.05rem;"> ছবি আপলোড করতে ক্লিক করুন</p>
+                        <p id="op-drop-text" style="font-weight: 600; font-size: 1.05rem;">ছবি আপলোড করতে ক্লিক করুন</p>
                         <input type="file" id="op-img-input" accept="image/*" style="display: none;">
                     </div>
                 </div>
@@ -581,7 +593,7 @@
             </div>
         </div>
 
-        <!-- View 2.8: Morning Form -->
+        <!-- View 2.2: Morning Form -->
         <div id="view-morning-form" class="page-view">
             <div class="glass-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:22px;">
@@ -605,12 +617,46 @@
             </div>
         </div>
 
+        <!-- View 2.3: E-Paper Form -->
+        <div id="view-epaper-form" class="page-view">
+            <div class="glass-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:22px;">
+                    <button class="ctrl-btn" onclick="switchView('view-home')"><i class="fa-solid fa-arrow-left"></i> হোম</button>
+                    <h2 style="font-size: 1.5rem; font-weight: 700;">ই-পেপার পাতা ফরম</h2>
+                    <div></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>সংবাদের মূল ছবি নির্বাচন করুন</label>
+                    <div class="drop-zone" id="epaper-drop-zone" onclick="document.getElementById('epaper-img-input').click()">
+                        <i class="fa-solid fa-image" style="color: var(--primary-purple);"></i>
+                        <p id="epaper-drop-text" style="font-weight: 600; font-size: 1.05rem;">ছবি আপলোড করতে ক্লিক করুন</p>
+                        <input type="file" id="epaper-img-input" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="epaper-headline">সংবাদের শিরোনাম</label>
+                    <textarea id="epaper-headline" class="input-text" rows="2" placeholder="ই-পেপারের মূল শিরোনাম এখানে লিখুন..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="epaper-body">সংবাদের বিস্তারিত বিবরণ</label>
+                    <textarea id="epaper-body" class="input-text" rows="6" placeholder="সংবাদের বিস্তারিত প্যারাগ্রাফ বা প্রতিবেদন এখানে লিখুন..."></textarea>
+                </div>
+
+                <button class="btn-big-hero btn-epaper-hero" style="width: 100%;" onclick="goToEpaperPreview()">
+                    <i class="fa-solid fa-newspaper"></i> ই-পেপার পাতা তৈরি করুন
+                </button>
+            </div>
+        </div>
+
         <!-- View 3: Preview -->
         <div id="view-preview" class="page-view">
             <div class="glass-card" style="text-align: center;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
                     <button class="ctrl-btn" onclick="goBackToForm()"><i class="fa-solid fa-arrow-left"></i> এডিট করুন</button>
-                    <h2 style="font-size: 1.4rem; font-weight: 700;">ফটোকার্ড প্রিভিউ ও এডজাস্টমেন্ট</h2>
+                    <h2 style="font-size: 1.4rem; font-weight: 700;">প্রিভিউ ও এডজাস্টমেন্ট</h2>
                     <div></div>
                 </div>
 
@@ -634,7 +680,7 @@
                 </div>
 
                 <!-- Image Controls -->
-                <div class="control-section">
+                <div class="control-section" id="image-controls-section">
                     <div class="control-title"><i class="fa-solid fa-image"></i> ছবির পজিশন ও জুম কন্ট্রোল</div>
                     <div class="control-panel">
                         <button class="ctrl-btn" onclick="adjustImage('zoomIn')"><i class="fa-solid fa-magnifying-glass-plus"></i> জুম ইন</button>
@@ -671,8 +717,9 @@
     </main>
 
     <footer>
-        <p>© কপিরাইট বড়াইগ্রামের কন্ঠস্বর | সর্বস্বত্ব সংরক্ষিত</p>
-        <p style="margin-top: 6px; font-size: 0.9rem;">
+        <p>সম্পাদক ও প্রকাশক : বেলহাজ উদ্দিন বাঁধন</p>
+        <p style="margin-top: 6px;">© ২০২৬ সর্বস্বত্ব সংরক্ষিত- বড়াইগ্রামের কণ্ঠস্বর</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">
             DESIGN & DEVELOPED BY 
             <a href="https://wa.me/8801763752653" target="_blank">RAFI DIGITAL SOLUTION</a>
         </p>
@@ -755,6 +802,7 @@
         let currentNewsFrameIndex = 1;
         let userImage = new Image();
         let logoImage = new Image();
+        let epaperHeaderImage = new Image();
         
         let newsFrames = [
             null,
@@ -765,10 +813,18 @@
         let opinionFrameImage = new Image();
         let imgLoaded = false;
         let opinionFrameLoaded = false;
+        let epaperHeaderLoaded = false;
         let imgState = { x: 0, y: 0, scale: 1.0 };
 
         logoImage.crossOrigin = "anonymous";
         logoImage.src = "https://i.ibb.co.com/tp271RPg/IMG-20261008-WA0019.jpg";
+
+        epaperHeaderImage.crossOrigin = "anonymous";
+        epaperHeaderImage.onload = () => { 
+            epaperHeaderLoaded = true; 
+            generatePhotocard();
+        };
+        epaperHeaderImage.src = "https://i.ibb.co.com/5gqnmC84/87af7676-e552-4c55-b881-ede15e34a4f8.png";
 
         const frameUrls = [
             "",
@@ -807,6 +863,7 @@
         setupDropZone('drop-zone', 'img-input', 'drop-text');
         setupDropZone('op-drop-zone', 'op-img-input', 'op-drop-text');
         setupDropZone('morning-drop-zone', 'morning-img-input', 'morning-drop-text');
+        setupDropZone('epaper-drop-zone', 'epaper-img-input', 'epaper-drop-text');
 
         function handleFiles(file, textId) {
             if(!file.type.startsWith('image/')) return;
@@ -837,6 +894,7 @@
             currentMode = 'news';
             document.getElementById('news-frame-selector-section').style.display = 'block';
             document.getElementById('font-slider-section').style.display = 'block';
+            document.getElementById('image-controls-section').style.display = 'block';
             switchView('view-preview');
             updateCaptionHelper();
             generatePhotocard();
@@ -847,6 +905,7 @@
             currentMode = 'opinion';
             document.getElementById('news-frame-selector-section').style.display = 'none';
             document.getElementById('font-slider-section').style.display = 'block';
+            document.getElementById('image-controls-section').style.display = 'block';
             switchView('view-preview');
             updateCaptionHelper();
             generatePhotocard();
@@ -857,6 +916,18 @@
             currentMode = 'morning';
             document.getElementById('news-frame-selector-section').style.display = 'none';
             document.getElementById('font-slider-section').style.display = 'none';
+            document.getElementById('image-controls-section').style.display = 'block';
+            switchView('view-preview');
+            updateCaptionHelper();
+            generatePhotocard();
+        }
+
+        function goToEpaperPreview() {
+            if (!imgLoaded) { alert('অনুগ্রহ করে সংবাদের ছবি আপলোড করুন!'); return; }
+            currentMode = 'epaper';
+            document.getElementById('news-frame-selector-section').style.display = 'none';
+            document.getElementById('font-slider-section').style.display = 'none';
+            document.getElementById('image-controls-section').style.display = 'block';
             switchView('view-preview');
             updateCaptionHelper();
             generatePhotocard();
@@ -865,7 +936,8 @@
         function goBackToForm() {
             if (currentMode === 'news') switchView('view-form');
             else if (currentMode === 'opinion') switchView('view-opinion-form');
-            else switchView('view-morning-form');
+            else if (currentMode === 'morning') switchView('view-morning-form');
+            else switchView('view-epaper-form');
         }
 
         function adjustImage(action) {
@@ -888,8 +960,10 @@
                 generateNewsPhotocard();
             } else if (currentMode === 'opinion') {
                 generateOpinionPhotocard();
-            } else {
+            } else if (currentMode === 'morning') {
                 generateMorningPhotocard();
+            } else if (currentMode === 'epaper') {
+                generateEpaperPhotocard();
             }
         }
 
@@ -1130,6 +1204,228 @@
             ctx.restore();
         }
 
+        function generateEpaperPhotocard() {
+            const canvas = document.getElementById('photocard-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 2160;
+            canvas.height = 2700;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // ১. ই-পেপার হেডার ইমেজ
+            if (epaperHeaderLoaded && epaperHeaderImage.complete) {
+                const headerH = 340;
+                ctx.drawImage(epaperHeaderImage, 0, 0, canvas.width, headerH);
+            }
+
+            // ২. তারিখ বার
+            const now = new Date();
+            const dateStr = getFullBanglaDateString(now);
+            const dateBarY = 340;
+            const dateBarH = 80;
+
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, dateBarY, canvas.width, dateBarH);
+
+            ctx.save();
+            ctx.font = `bold 42px 'Tiro Bangla', sans-serif`;
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.fillText(`প্রিন্ট এর তারিখ: ${dateStr} || প্রকাশের তারিখ: ${dateStr}`, canvas.width / 2, dateBarY + 54);
+            ctx.restore();
+
+            // ৩. শিরোনাম
+            const headline = document.getElementById('epaper-headline').value.trim();
+            let currentY = dateBarY + dateBarH + 90;
+
+            if (headline.length > 0) {
+                ctx.save();
+                ctx.font = `bold 68px 'Tiro Bangla', sans-serif`;
+                ctx.fillStyle = '#0f172a';
+                ctx.textAlign = 'center';
+                
+                const words = headline.split(/\s+/);
+                let lines = [];
+                let currentLine = "";
+                const maxWidth = canvas.width - 160;
+
+                words.forEach(word => {
+                    let testLine = currentLine + word + " ";
+                    if (ctx.measureText(testLine).width > maxWidth && currentLine !== "") {
+                        lines.push(currentLine);
+                        currentLine = word + " ";
+                    } else {
+                        currentLine = testLine;
+                    }
+                });
+                lines.push(currentLine);
+
+                lines.forEach(line => {
+                    ctx.fillText(line.trim(), canvas.width / 2, currentY);
+                    currentY += 88;
+                });
+                ctx.restore();
+                currentY += 20;
+            } else {
+                currentY += 20;
+            }
+
+            // ৪. সংবাদের ছবি (বামে)
+            const imgWidth = 920;
+            const imgHeight = 620;
+            const imgX = 80;
+            const imgY = currentY;
+
+            if (imgLoaded && userImage.complete) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.rect(imgX, imgY, imgWidth, imgHeight);
+                ctx.clip();
+
+                const imgRatio = userImage.width / userImage.height;
+                const targetRatio = imgWidth / imgHeight;
+                let drawW, drawH;
+
+                if (imgRatio > targetRatio) {
+                    drawH = imgHeight * imgState.scale;
+                    drawW = drawH * imgRatio;
+                } else {
+                    drawW = imgWidth * imgState.scale;
+                    drawH = drawW / imgRatio;
+                }
+
+                const drawX = imgX + (imgWidth - drawW) / 2 + imgState.x;
+                const drawY = imgY + (imgHeight - drawH) / 2 + imgState.y;
+
+                ctx.drawImage(userImage, drawX, drawY, drawW, drawH);
+                ctx.restore();
+
+                // ছবির বর্ডার
+                ctx.strokeStyle = '#cbd5e1';
+                ctx.lineWidth = 4;
+                ctx.strokeRect(imgX, imgY, imgWidth, imgHeight);
+            }
+
+            // ৫. ছবির ডানপাশের লেখা
+            const rawBodyText = document.getElementById('epaper-body').value.trim();
+            const fullText = rawBodyText.length > 0 ? rawBodyText : "";
+
+            const footerY = 2480;
+            const maxAllowedY = footerY - 50;
+
+            const rightColumnX = 1040;
+            const rightColumnWidth = canvas.width - rightColumnX - 80;
+
+            let fontSize = 38;
+            let lineHeight = 56;
+            let words = fullText.split(/\s+/);
+
+            ctx.save();
+            ctx.font = `400 ${fontSize}px 'Tiro Bangla', sans-serif`;
+
+            let wordIndex = 0;
+            let textY = imgY + 42;
+
+            // 'নিউজ ডেস্ক:' বোল্ড করে আঁকা
+            ctx.font = `bold ${fontSize + 2}px 'Tiro Bangla', sans-serif`;
+            ctx.fillStyle = '#0f172a';
+            ctx.fillText("নিউজ ডেস্ক: ", rightColumnX, textY);
+            let prefixWidth = ctx.measureText("নিউজ ডেস্ক: ").width;
+
+            ctx.font = `400 ${fontSize}px 'Tiro Bangla', sans-serif`;
+            ctx.fillStyle = '#334155';
+
+            let lineX = rightColumnX + prefixWidth;
+            let currentLine = "";
+
+            while (wordIndex < words.length && textY <= imgY + imgHeight - 10) {
+                let word = words[wordIndex];
+                let testLine = currentLine + word + " ";
+                let testWidth = ctx.measureText(testLine).width;
+
+                if (lineX + testWidth > rightColumnX + rightColumnWidth && currentLine !== "") {
+                    ctx.fillText(currentLine.trim(), lineX, textY);
+                    currentLine = word + " ";
+                    lineX = rightColumnX;
+                    textY += lineHeight;
+                } else {
+                    currentLine = testLine;
+                }
+                wordIndex++;
+            }
+            if (currentLine !== "" && textY <= imgY + imgHeight - 10) {
+                ctx.fillText(currentLine.trim(), lineX, textY);
+                textY += lineHeight;
+            }
+
+            // ৬. ছবির নিচের অংশ: ৩ কলাম লেআউট (৩-Columns)
+            const start3ColY = imgY + imgHeight + 40;
+            const colGap = 40;
+            const totalWidth = canvas.width - 160;
+            const colWidth = (totalWidth - (colGap * 2)) / 3;
+
+            const col1X = 80;
+            const col2X = col1X + colWidth + colGap;
+            const col3X = col2X + colWidth + colGap;
+
+            let colY = start3ColY;
+            let currentCol = 1;
+
+            while (wordIndex < words.length) {
+                let currentX = (currentCol === 1) ? col1X : ((currentCol === 2) ? col2X : col3X);
+                let line = "";
+
+                while (wordIndex < words.length) {
+                    let word = words[wordIndex];
+                    let testLine = line + word + " ";
+
+                    if (ctx.measureText(testLine).width > colWidth && line !== "") {
+                        ctx.fillText(line.trim(), currentX, colY);
+                        line = word + " ";
+                        colY += lineHeight;
+
+                        if (colY > maxAllowedY) {
+                            currentCol++;
+                            colY = start3ColY;
+                            break;
+                        }
+                    } else {
+                        line = testLine;
+                        wordIndex++;
+                    }
+                }
+
+                if (line.trim() !== "" && colY <= maxAllowedY && currentCol <= 3) {
+                    let currentX = (currentCol === 1) ? col1X : ((currentCol === 2) ? col2X : col3X);
+                    ctx.fillText(line.trim(), currentX, colY);
+                    colY += lineHeight;
+                }
+
+                if (currentCol > 3) break;
+            }
+
+            ctx.restore();
+
+            // ৭. ই-পেপার ফুটার
+            ctx.strokeStyle = '#059669';
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.moveTo(80, footerY - 30);
+            ctx.lineTo(canvas.width - 80, footerY - 30);
+            ctx.stroke();
+
+            ctx.save();
+            ctx.font = `bold 48px 'Tiro Bangla', sans-serif`;
+            ctx.fillStyle = '#0f172a';
+            ctx.textAlign = 'center';
+            ctx.fillText("সম্পাদক ও প্রকাশক : বেলহাজ উদ্দিন বাঁধন", canvas.width / 2, footerY + 30);
+
+            ctx.font = `600 40px 'Tiro Bangla', sans-serif`;
+            ctx.fillStyle = '#64748b';
+            ctx.fillText("© ২০২৬ সর্বস্বত্ব সংরক্ষিত- বড়াইগ্রামের কণ্ঠস্বর", canvas.width / 2, footerY + 95);
+            ctx.restore();
+        }
+
         function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
             ctx.beginPath();
             ctx.moveTo(x + radius, y);
@@ -1279,8 +1575,11 @@
                 const quote = document.getElementById('op-quote').value.trim();
                 const source = document.getElementById('op-source').value.trim();
                 caption = `"${quote}"\n\n- ${name}\n${title}\nসূত্র: ${source}\n\nতারিখ: ${dateStr}\n\n#BaraigramOpinion #BaraigramNews`;
-            } else {
+            } else if (currentMode === 'morning') {
                 caption = `শুভ সকাল! আপনার দিনটি শুভ ও আনন্দময় হোক।\n\nতারিখ: ${dateStr}\n\n#ShuvoShokal #GoodMorning #BaraigramerKonthaswar`;
+            } else {
+                const headline = document.getElementById('epaper-headline').value.trim();
+                caption = `${headline}\n\nই-পেপার পাতা পড়তে চোখ রাখুন বড়াইগ্রামের কণ্ঠস্বর-এ।\n\nসম্পাদক ও প্রকাশক : বেলহাজ উদ্দিন বাঁধন\n\n#Epaper #BaraigramNews #BaraigramerKonthaswar`;
             }
             document.getElementById('generated-caption-text').innerText = caption;
         }
@@ -1306,12 +1605,12 @@
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     navigator.share({
                         title: 'বড়াইগ্রামের কন্ঠস্বর',
-                        text: 'বড়াইগ্রামের কন্ঠস্বর ফটোকার্ড',
+                        text: 'বড়াইগ্রামের কন্ঠস্বর ই-পেপার ও ফটোকার্ড',
                         files: [file]
                     });
                 } else {
                     downloadPhotocard();
-                    alert('আল্ট্রা এইচডি ফটোকার্ড ডাউনলোড হয়েছে। ফেসবুকে শেয়ার করার জন্য ক্যাপশন কপি করে নিন!');
+                    alert('আল্ট্রা এইচডি ডাউনলোড হয়েছে। ফেসবুকে শেয়ার করার জন্য ক্যাপশন কপি করে নিন!');
                     window.open('https://www.facebook.com/', '_blank');
                 }
             }, 'image/png', 1.0);
