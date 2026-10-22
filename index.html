@@ -1222,7 +1222,6 @@
             ctx.restore();
         }
 
-        /* ---------------- PERFECT JUSTIFIED E-PAPER RENDERER ---------------- */
         function renderJustifiedText(ctx, text, x, y, width, lineHeight, isFirstParagraph = false, prefix = "") {
             const words = text.trim().split(/\s+/);
             if (words.length === 0 || text.trim() === "") return y;
@@ -1323,7 +1322,7 @@
             const headlineText = document.getElementById('epaper-headline').value.trim();
             const rawBodyText = document.getElementById('epaper-body').value.trim();
 
-            // ১. শিরোনাম পরিমাপ
+            // শিরোনাম পরিমাপ
             ctx.font = `bold 72px 'Tiro Bangla', sans-serif`;
             let headlineLines = [];
             if (headlineText.length > 0) {
@@ -1342,7 +1341,7 @@
             }
             const headlineH = headlineLines.length * 92 + (headlineLines.length > 0 ? 30 : 0);
 
-            // ২. ছবি ও প্যারাগ্রাফ সেটিংস
+            // ছবি ও প্যারাগ্রাফ সেটিংস
             const hasImage = imgLoaded && userImage.complete;
             const imgWidth = hasImage ? 920 : 0;
             const imgHeight = hasImage ? 620 : 0;
@@ -1354,79 +1353,54 @@
             const lineHeight = 58;
             const paraGap = 20;
 
-            // ৩. নিখুঁত উচ্চতা বের করার জন্য অফস্ক্রিন সিমুলেশন
-            let simY = headerH + dateBarH + 90 + headlineH + 40;
+            ctx.font = `400 ${fontSize}px 'Tiro Bangla', sans-serif`;
             const paragraphs = rawBodyText.split('\n').filter(p => p.trim() !== "");
 
-            ctx.font = `400 ${fontSize}px 'Tiro Bangla', sans-serif`;
+            // সম্পূর্ণ ডায়নামিক উচ্চতা হিসাব করার লজিক (নিখুঁত হাইট ক্যালকুলেশন)
+            let startY = headerH + dateBarH + 90 + headlineH;
+            let renderY = startY + 40;
+            
+            if (hasImage) {
+                renderY += 20;
+            }
+
             paragraphs.forEach((para, index) => {
                 const isFirst = (index === 0);
                 const prefix = isFirst ? "নিউজ ডেস্ক: " : "";
                 
-                // সিমুলেশন লজিক (হুবহু রেন্ডারিং এর মতো)
+                // সিমুলেশন করে টেক্সটের আসল উচ্চতা বের করা হচ্ছে যাতে ক্যানভাস ছোট না হয়
+                let testY = renderY;
                 let words = para.trim().split(/\s+/);
-                let curY = simY;
-                let curLineWords = [];
-                let curLineWidth = 0;
+                let currentLineWidth = 0;
+                let activeWidth = contentWidth;
 
-                if (isFirst && prefix !== "") {
-                    let pWidth = ctx.measureText(prefix).width;
-                    let lineAvailWidth = (hasImage && curY < (headerH + dateBarH + 90 + headlineH + 40 + imgHeight)) ? (rightColumnWidth - pWidth) : (contentWidth - pWidth);
-                    
-                    let i = 0;
-                    while (i < words.length) {
-                        let wWidth = ctx.measureText(words[i] + " ").width;
-                        if (curLineWidth + wWidth > lineAvailWidth && curLineWords.length > 0) {
-                            curY += lineHeight;
-                            curLineWords = [];
-                            curLineWidth = 0;
-                            break;
-                        }
-                        curLineWords.push(words[i]);
-                        curLineWidth += wWidth;
-                        i++;
-                    }
-                    if (i >= words.length) {
-                        simY = curY + lineHeight + paraGap;
-                        return;
-                    }
-                    words.splice(0, i);
+                if (hasImage && testY < (startY + 40 + imgHeight - 30)) {
+                    activeWidth = rightColumnWidth;
                 }
 
-                let activeWidth = (hasImage && curY < (headerH + dateBarH + 90 + headlineH + 40 + imgHeight)) ? rightColumnWidth : contentWidth;
-                for (let i = 0; i < words.length; i++) {
-                    let word = words[i];
-                    let wordWidth = ctx.measureText(word + " ").width;
-
-                    if (curLineWidth + wordWidth > activeWidth && curLineWords.length > 0) {
-                        curY += lineHeight;
-                        curLineWords = [word];
-                        curLineWidth = wordWidth;
-                        // যদি ছবি পার হয়ে যায় তবে উইডথ আবার পুরো কন্টেন্ট উইডথ হয়ে যাবে
-                        activeWidth = (hasImage && curY < (headerH + dateBarH + 90 + headlineH + 40 + imgHeight)) ? rightColumnWidth : contentWidth;
+                words.forEach(word => {
+                    let wWidth = ctx.measureText(word + " ").width;
+                    if (currentLineWidth + wWidth > activeWidth) {
+                        testY += lineHeight;
+                        currentLineWidth = wWidth;
                     } else {
-                        curLineWords.push(word);
-                        curLineWidth += wordWidth;
+                        currentLineWidth += wWidth;
                     }
-                }
-                if (curLineWords.length > 0) {
-                    curY += lineHeight;
-                }
-                simY = curY + paraGap;
+                });
+                renderY = testY + lineHeight + paraGap;
             });
 
-            // ৪. চূড়ান্ত ক্যানভাস সাইজ নির্ধারণ
-            const finalCalculatedHeight = Math.max(simY + 220, headerH + dateBarH + imgHeight + 350);
+            // ফুটার সহ মোট ক্যানভাস সাইজ নির্ধারণ
+            let finalFooterY = Math.max(renderY, hasImage ? (startY + 40 + imgHeight + 40) : renderY) + 60;
+            const calculatedHeight = finalFooterY + 220;
 
             canvas.width = canvasWidth;
-            canvas.height = Math.ceil(finalCalculatedHeight);
+            canvas.height = Math.max(2000, Math.ceil(calculatedHeight));
 
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // --- আসল রেন্ডারিং ---
-
-            // ১. হেডার
+            // ১. হেডার আঁকা
             if (epaperHeaderLoaded && epaperHeaderImage.complete) {
                 ctx.drawImage(epaperHeaderImage, 0, 0, canvas.width, headerH);
             }
@@ -1446,8 +1420,8 @@
             ctx.fillText(`প্রিন্ট এর তারিখ: ${dateStr}  ||  প্রকাশের তারিখ: ${dateStr}`, canvas.width / 2, dateBarY + 50);
             ctx.restore();
 
-            // ৩. শিরোনাম
-            let currentY = dateBarY + dateBarH + 90;
+            // ৩. শিরোনাম আঁকা
+            currentY = dateBarY + dateBarH + 90;
             if (headlineLines.length > 0) {
                 ctx.save();
                 ctx.font = `bold 72px 'Tiro Bangla', sans-serif`;
@@ -1462,7 +1436,7 @@
                 currentY += 30;
             }
 
-            // ৪. সংবাদের ছবি
+            // ৪. সংবাদের ছবি আঁকা
             const imgX = leftRightMargin;
             const imgY = currentY;
 
@@ -1495,8 +1469,8 @@
                 ctx.strokeRect(imgX, imgY, imgWidth, imgHeight);
             }
 
-            // ৫. সংবাদের প্যারাগ্রাফ ও Justified Text রেন্ডারিং
-            let renderY = currentY + 40;
+            // ৫. সংবাদের প্যারাগ্রাফ রেন্ডারিং
+            renderY = currentY + 40;
             ctx.font = `400 ${fontSize}px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#1e293b';
 
@@ -1512,8 +1486,8 @@
                 renderY += paraGap;
             });
 
-            // ৬. প্রফেশনাল ফুটার (ডাইনামিক পজিশনিং)
-            const finalFooterY = Math.max(renderY + 40, hasImage ? (imgY + imgHeight + 50) : renderY + 40);
+            // ৬. ফুটার অংশ (নিখুঁত অবস্থানে রেন্ডার হবে, কখনো কাটবে না)
+            finalFooterY = Math.max(renderY, hasImage ? (imgY + imgHeight + 40) : renderY) + 50;
 
             ctx.strokeStyle = epaperTheme === 'bw' ? '#0f172a' : '#059669';
             ctx.lineWidth = 5;
@@ -1526,14 +1500,14 @@
             ctx.font = `bold 48px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#0f172a';
             ctx.textAlign = 'center';
-            ctx.fillText("সম্পাদক ও প্রকাশক : বেলহাজ উদ্দিন বাঁধন", canvas.width / 2, finalFooterY + 65);
+            ctx.fillText("সম্পাদক ও প্রকাশক : বেলহাজ উদ্দিন বাঁধন", canvas.width / 2, finalFooterY + 60);
 
             ctx.font = `600 40px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#64748b';
-            ctx.fillText("© ২০২৬ সর্বস্বত্ব সংরক্ষিত- বড়াইগ্রামের কণ্ঠস্বর", canvas.width / 2, finalFooterY + 135);
+            ctx.fillText("© ২০২৬ সর্বস্বত্ব সংরক্ষিত- বড়াইগ্রামের কণ্ঠস্বর", canvas.width / 2, finalFooterY + 125);
             ctx.restore();
 
-            // বি&ডব্লিউ ফিল্টার
+            // বি অ্যান্ড ডব্লিউ ফিল্টার অ্যাপ্লাই
             if (epaperTheme === 'bw') {
                 let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 let data = imgData.data;
