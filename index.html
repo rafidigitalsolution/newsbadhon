@@ -742,7 +742,7 @@
 
         function getFullBanglaDateString(date) {
             const days = ["রবিবার", "সোমবার", "মঙ্গলবার", "বুধবার", "বৃহস্পতিবার", "শুক্রবার", "শনিবার"];
-            const months = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+            const months = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এpril", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
             
             const dayName = days[date.getDay()];
             const dayNum = toBengaliNum(date.getDate());
@@ -829,7 +829,6 @@
         logoImage.crossOrigin = "anonymous";
         logoImage.src = "https://i.ibb.co.com/tp271RPg/IMG-20261008-WA0019.jpg";
 
-        // ই-পেপার নতুন হেডার
         epaperHeaderImage.crossOrigin = "anonymous";
         epaperHeaderImage.onload = () => { epaperHeaderLoaded = true; generatePhotocard(); };
         epaperHeaderImage.src = "https://i.ibb.co.com/0jVcp7Bx/Pixellab-ST-20261021-102828.png";
@@ -1355,18 +1354,72 @@
             const lineHeight = 58;
             const paraGap = 20;
 
-            // ৩. টেক্সট পরিমাপ
-            ctx.font = `400 ${fontSize}px 'Tiro Bangla', sans-serif`;
-            ctx.fillStyle = '#334155';
-
+            // ৩. নিখুঁত উচ্চতা বের করার জন্য অফস্ক্রিন সিমুলেশন
+            let simY = headerH + dateBarH + 90 + headlineH + 40;
             const paragraphs = rawBodyText.split('\n').filter(p => p.trim() !== "");
 
-            // ক্যানভাসের আনুমানিক ডায়নামিক হাইট
-            let estimatedBodyH = Math.max(imgHeight, paragraphs.length * 120);
-            const calculatedHeight = headerH + dateBarH + 90 + headlineH + estimatedBodyH + 300;
+            ctx.font = `400 ${fontSize}px 'Tiro Bangla', sans-serif`;
+            paragraphs.forEach((para, index) => {
+                const isFirst = (index === 0);
+                const prefix = isFirst ? "নিউজ ডেস্ক: " : "";
+                
+                // সিমুলেশন লজিক (হুবহু রেন্ডারিং এর মতো)
+                let words = para.trim().split(/\s+/);
+                let curY = simY;
+                let curLineWords = [];
+                let curLineWidth = 0;
+
+                if (isFirst && prefix !== "") {
+                    let pWidth = ctx.measureText(prefix).width;
+                    let lineAvailWidth = (hasImage && curY < (headerH + dateBarH + 90 + headlineH + 40 + imgHeight)) ? (rightColumnWidth - pWidth) : (contentWidth - pWidth);
+                    
+                    let i = 0;
+                    while (i < words.length) {
+                        let wWidth = ctx.measureText(words[i] + " ").width;
+                        if (curLineWidth + wWidth > lineAvailWidth && curLineWords.length > 0) {
+                            curY += lineHeight;
+                            curLineWords = [];
+                            curLineWidth = 0;
+                            break;
+                        }
+                        curLineWords.push(words[i]);
+                        curLineWidth += wWidth;
+                        i++;
+                    }
+                    if (i >= words.length) {
+                        simY = curY + lineHeight + paraGap;
+                        return;
+                    }
+                    words.splice(0, i);
+                }
+
+                let activeWidth = (hasImage && curY < (headerH + dateBarH + 90 + headlineH + 40 + imgHeight)) ? rightColumnWidth : contentWidth;
+                for (let i = 0; i < words.length; i++) {
+                    let word = words[i];
+                    let wordWidth = ctx.measureText(word + " ").width;
+
+                    if (curLineWidth + wordWidth > activeWidth && curLineWords.length > 0) {
+                        curY += lineHeight;
+                        curLineWords = [word];
+                        curLineWidth = wordWidth;
+                        // যদি ছবি পার হয়ে যায় তবে উইডথ আবার পুরো কন্টেন্ট উইডথ হয়ে যাবে
+                        activeWidth = (hasImage && curY < (headerH + dateBarH + 90 + headlineH + 40 + imgHeight)) ? rightColumnWidth : contentWidth;
+                    } else {
+                        curLineWords.push(word);
+                        curLineWidth += wordWidth;
+                    }
+                }
+                if (curLineWords.length > 0) {
+                    curY += lineHeight;
+                }
+                simY = curY + paraGap;
+            });
+
+            // ৪. চূড়ান্ত ক্যানভাস সাইজ নির্ধারণ
+            const finalCalculatedHeight = Math.max(simY + 220, headerH + dateBarH + imgHeight + 350);
 
             canvas.width = canvasWidth;
-            canvas.height = Math.max(2000, Math.ceil(calculatedHeight));
+            canvas.height = Math.ceil(finalCalculatedHeight);
 
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -1459,8 +1512,8 @@
                 renderY += paraGap;
             });
 
-            // ৬. প্রফেশনাল ফুটার (Dynamic Footer)
-            const finalFooterY = Math.max(renderY, hasImage ? (imgY + imgHeight + 40) : renderY) + 50;
+            // ৬. প্রফেশনাল ফুটার (ডাইনামিক পজিশনিং)
+            const finalFooterY = Math.max(renderY + 40, hasImage ? (imgY + imgHeight + 50) : renderY + 40);
 
             ctx.strokeStyle = epaperTheme === 'bw' ? '#0f172a' : '#059669';
             ctx.lineWidth = 5;
@@ -1473,23 +1526,12 @@
             ctx.font = `bold 48px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#0f172a';
             ctx.textAlign = 'center';
-            ctx.fillText("সম্পাদক ও প্রকাশক : বেলহাজ উদ্দিন বাঁধন", canvas.width / 2, finalFooterY + 60);
+            ctx.fillText("সম্পাদক ও প্রকাশক : বেলহাজ উদ্দিন বাঁধন", canvas.width / 2, finalFooterY + 65);
 
             ctx.font = `600 40px 'Tiro Bangla', sans-serif`;
             ctx.fillStyle = '#64748b';
-            ctx.fillText("© ২০২৬ সর্বস্বত্ব সংরক্ষিত- বড়াইগ্রামের কণ্ঠস্বর", canvas.width / 2, finalFooterY + 125);
+            ctx.fillText("© ২০২৬ সর্বস্বত্ব সংরক্ষিত- বড়াইগ্রামের কণ্ঠস্বর", canvas.width / 2, finalFooterY + 135);
             ctx.restore();
-
-            // ক্যানভাস সাইজ ফাইনাল ক্রপ
-            const finalCanvasHeight = finalFooterY + 180;
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = canvas.width;
-            tempCanvas.height = finalCanvasHeight;
-            const tempCtx = tempCanvas.getContext('2d');
-            tempCtx.drawImage(canvas, 0, 0);
-
-            canvas.height = finalCanvasHeight;
-            ctx.drawImage(tempCanvas, 0, 0);
 
             // বি&ডব্লিউ ফিল্টার
             if (epaperTheme === 'bw') {
